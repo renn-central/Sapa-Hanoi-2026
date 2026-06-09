@@ -843,14 +843,21 @@ input[type="checkbox"], input[type="radio"] {
 .login-hint { font-size: 11px; color: var(--text3); margin-top: 14px; line-height: 1.5; }
 body.guest-mode .image-upload-actions,
 body.guest-mode .image-upload-placeholder i,
-body.guest-mode .image-upload-placeholder span { display: none !important; }
-body.guest-mode .image-upload-placeholder { cursor: default; }
-body.guest-mode .image-upload-slot { border-style: solid; }
+body.guest-mode .image-upload-placeholder span,
+body.member-mode .image-upload-actions,
+body.member-mode .image-upload-placeholder i,
+body.member-mode .image-upload-placeholder span { display: none !important; }
+body.guest-mode .image-upload-placeholder,
+body.member-mode .image-upload-placeholder { cursor: default; }
+body.guest-mode .image-upload-slot,
+body.member-mode .image-upload-slot { border-style: solid; }
 body.guest-mode input:not(.login-input),
 body.guest-mode textarea,
 body.guest-mode select { pointer-events: none; opacity: .7; }
-body.guest-mode .opt-pick { cursor: default; }
-body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
+body.guest-mode .opt-pick,
+body.member-mode .opt-pick { cursor: default; pointer-events: none; }
+body.guest-mode .planbtn,
+body.member-mode .planbtn { pointer-events: none; opacity: .65; }
 
 /* ── LIGHTBOX ── */
 .lightbox-overlay {
@@ -1123,6 +1130,95 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
   #panel-budget .btable th, #panel-budget .btable td { padding-left: 7px; padding-right: 7px; }
   #panel-budget .actual-input { width: 72px; }
 }
+
+
+/* FINAL BUDGET + MOBILE TAB FIXES */
+@media (max-width: 600px) {
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 5px;
+    overflow-x: visible;
+    flex-wrap: initial;
+  }
+  .tb {
+    padding: 7px 4px;
+    font-size: 11px;
+    text-align: center;
+    width: 100%;
+  }
+}
+.budget-filter-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  box-shadow: var(--shadow);
+}
+.budget-filter-box label { font-size:12px; color:var(--text3); display:block; margin-bottom:6px; }
+.budget-filter-box select, .tracker-input, .tracker-select {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 7px 9px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  background: var(--bg2);
+  color: var(--text);
+}
+body.guest-mode .budget-filter-box select, body.guest-mode .tracker-input, body.guest-mode .tracker-select { pointer-events:none; opacity:.7; }
+body.member-mode .tabs-wrap, body.member-mode .tb { pointer-events:auto; }
+.optional-free-row.is-hidden { display:none; }
+.tracker-summary { display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 14px; border-bottom:1px solid var(--border); background: var(--bg2); }
+.tracker-stat { background: var(--card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; text-align:center; }
+.tracker-stat .lbl { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:.05em; }
+.tracker-stat .val { font-size:16px; font-weight:700; color:var(--text); margin-top:2px; }
+.tracker-stat.remaining .val { color: var(--green-text); }
+.tracker-note { padding:10px 14px; font-size:12px; color:var(--text2); border-bottom:1px solid var(--border); background: var(--green-bg); }
+.tracker-table th, .tracker-table td { padding:8px 8px; }
+.tracker-input { width:100%; }
+.tracker-amount { max-width:90px; text-align:right; }
+.restaurant-tabs { display:flex; gap:6px; flex-wrap:wrap; margin:10px 0; }
+.restaurant-tabs button { border:1px solid var(--border); background:var(--card); color:var(--text2); border-radius:999px; padding:6px 10px; font-size:12px; font-family:'DM Sans',sans-serif; cursor:pointer; }
+.restaurant-tabs button.active { background:var(--text); color:#fff; border-color:var(--text); }
+.restaurant-option-card.is-hidden { display:none; }
+@media (max-width: 520px) {
+  .tracker-summary { grid-template-columns: 1fr; }
+  .tracker-table { font-size:11px; }
+  .tracker-table th, .tracker-table td { padding:7px 5px; }
+  .tracker-amount { max-width:72px; }
+  .restaurant-tabs button { flex:1; min-width: 30%; }
+}
+
+
+
+/* BUDGET PANEL UPDATE — expandable options + dynamic trackers */
+.free-options-row td { background: #fffaf3; }
+.free-option-buttons { display:flex; flex-wrap:wrap; gap:7px; }
+.free-option-btn, .tracker-add-btn, .tracker-remove-btn {
+  border:1px solid var(--border); border-radius:999px; background:var(--card); color:var(--text);
+  padding:5px 10px; font-size:12px; font-family:'DM Sans',sans-serif; cursor:pointer;
+}
+.free-option-btn:hover, .tracker-add-btn:hover { background:var(--bg2); }
+.free-option-btn.active { background:var(--green-bg); color:var(--green-text); border-color:#b8e8d4; }
+.free-detail-row.is-hidden, .tracker-entry.is-hidden { display:none; }
+.free-detail-card { display:grid; grid-template-columns:1fr 56px 92px 106px; gap:8px; align-items:center; }
+.free-detail-card .b-item-sub { margin-top:2px; }
+.tracker-action-bar { padding:10px 12px; display:flex; justify-content:flex-end; border-top:1px solid var(--border2); background:var(--bg2); }
+.tracker-remove-btn { color:var(--pink-text); padding:4px 8px; }
+.allowance-card { padding:14px 16px; border-bottom:1px solid var(--border); background:var(--bg2); }
+.allowance-row { display:grid; grid-template-columns:1fr 140px 140px; gap:10px; align-items:center; }
+.summary-table th, .summary-table td { text-align:right; }
+.summary-table th:first-child, .summary-table td:first-child { text-align:left; }
+.summary-total-row td { background:var(--green-bg); font-weight:700; color:var(--green-text); }
+@media (max-width:600px){
+  .free-detail-card { grid-template-columns:1fr; align-items:start; }
+  .free-detail-card > * { width:100%; }
+  .allowance-row { grid-template-columns:1fr; }
+  .tracker-table th, .tracker-table td { font-size:11px; padding-left:5px; padding-right:5px; }
+  .tabs { display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:5px; overflow:visible; }
+  .tb { padding:7px 4px; font-size:11px; text-align:center; }
+}
+
 </style>
 </head>
 <body>
@@ -1145,10 +1241,10 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <div class="login-overlay" id="login-overlay">
 <div class="login-card">
 <div class="login-title">Trip Planner Login</div>
-<div class="login-sub">Use Admin to edit photos and trip details. Use Guest for view-only access.</div>
+<div class="login-sub">Use Admin to edit everything. Members can update Budget only. Guest is view-only.</div>
 <div class="login-field">
 <label for="login-username">Username</label>
-<input autocomplete="username" class="login-input" id="login-username" placeholder="Admin or Guest" type="text"/>
+<input autocomplete="username" class="login-input" id="login-username" placeholder="Admin, Member1, or Guest" type="text"/>
 </div>
 <div class="login-field">
 <label for="login-password">Password</label>
@@ -1156,7 +1252,7 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 </div>
 <button class="login-btn" id="login-submit" type="button">Sign in</button>
 <div class="login-error" id="login-error"></div>
-<div class="login-hint">Guest can view the planner but cannot edit or upload/remove images.</div>
+<div class="login-hint">Admin can edit everything. Members can edit Budget only. Guest is view-only.</div>
 </div>
 </div>
 <div class="tabs-wrap">
@@ -1170,7 +1266,8 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <button class="tb" onclick="showDay('d9',this)">Oct 9</button>
 <button class="tb" onclick="showDay('d10',this)">Oct 10</button>
 <button class="tb" onclick="showDay('d11',this)">Oct 11</button>
-<button class="tb" onclick="showDay('budget',this)"><i class="ti ti-wallet"></i> Budget</button>
+<button class="tb" onclick="showDay('budget',this)"><i class="ti ti-wallet"></i> Budget Tracker</button>
+<button class="tb" onclick="showDay('tripcost',this)"><i class="ti ti-cash"></i> Trip Total Cost</button>
 </div>
 </div>
 <div class="main">
@@ -1326,7 +1423,7 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <div class="opt-grid">
 <div class="opt-card"><div class="opt-card-title"><i class="ti ti-rollercoaster"></i> Alpine Coaster</div><div class="opt-card-sub">₱590 1st · ₱295 2nd · 12–15 min by Grab · free shuttle from Convention Center</div><div class="image-upload-slot" data-alt="Alpine Coaster Sapa" data-image-key="photo-15" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-top:6px"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Alpine Coaster Sapa</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div>
 <div class="opt-card"><div class="opt-card-title"><i class="ti ti-camera"></i> Moana Sapa</div><div class="opt-card-sub">₱207 incl. 1 free drink · 12–15 min · photo park with mountain views</div><div class="image-upload-slot" data-alt="Moana Sapa" data-image-key="photo-16" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-top:6px"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Moana Sapa</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div>
-<div class="opt-card"><div class="opt-card-title"><i class="ti ti-coffee"></i> Viettrekking Café</div><div class="opt-card-sub">No entrance fee · budget for drinks · cozy mountain café vibes</div><div class="image-upload-slot" data-alt="Sapa mountain café" data-image-key="photo-17" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-top:6px"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Sapa mountain café</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div>
+<div class="opt-card"><div class="opt-card-title"><i class="ti ti-car"></i> GoKart in Sapa Fairy Valley</div><div class="opt-card-sub">₱500 entrance + go-kart · fun active option after Fansipan</div><div class="image-upload-slot" data-alt="GoKart in Sapa Fairy Valley" data-image-key="photo-17" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-top:6px"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>GoKart / Fairy Valley</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div>
 <div class="opt-card"><div class="opt-card-title"><i class="ti ti-bed"></i> Rest</div><div class="opt-card-sub">Fully valid after Fansipan — nap and recover!</div><div style="margin-top:8px"><div class="image-upload-slot" data-alt="Hotel rest Sapa" data-image-key="oct6-rest-1"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Rest / hotel room</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div></div>
 </div>
 </div></div></div></div>
@@ -1377,6 +1474,7 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <div class="opt-grid">
 <div class="opt-card"><div class="opt-card-title"><i class="ti ti-rollercoaster"></i> Alpine Coaster</div><div class="opt-card-sub">₱590 1st · ₱295 2nd · if skipped Oct 6</div><div class="image-upload-slot" data-alt="Alpine Coaster" data-image-key="photo-27" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-top:6px"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Alpine Coaster</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div>
 <div class="opt-card"><div class="opt-card-title"><i class="ti ti-camera"></i> Moana Sapa</div><div class="opt-card-sub">₱207 incl. 1 drink · if skipped Oct 6</div><div class="image-upload-slot" data-alt="Moana Sapa" data-image-key="photo-28" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-top:6px"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Moana Sapa</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div>
+<div class="opt-card"><div class="opt-card-title"><i class="ti ti-car"></i> GoKart in Sapa Fairy Valley</div><div class="opt-card-sub">₱500 entrance + go-kart · if skipped Oct 6</div><div class="image-upload-slot" data-alt="GoKart Sapa Fairy Valley" data-image-key="oct7-gokart-fairy-valley" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-top:6px"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>GoKart / Fairy Valley</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div>
 <div class="opt-card"><div class="opt-card-title"><i class="ti ti-shopping-bag"></i> Souvenir shopping</div><div class="opt-card-sub">H'Mong textiles · local coffee · handicrafts</div><div class="image-upload-slot" data-alt="Sapa market" data-image-key="photo-29" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-top:6px"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Sapa market</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div>
 </div>
 </div></div></div></div>
@@ -1648,7 +1746,7 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <div class="bsection">
 <div class="bsec-head"><i class="ti ti-plane-departure" style="color:var(--text3)"></i><span class="bsec-title">Oct 4</span><span class="bsec-date">Cebu → Hanoi → Sapa</span></div>
 <table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup>
-<thead><tr><th>Item</th><th class="c">✓</th><th class="r">Budget</th><th class="r">Actual</th></tr></thead>
+<thead><tr data-free-option="oct6" class="optional-free-row"><th>Item</th><th class="c">✓</th><th class="r">Budget</th><th class="r">Actual</th></tr></thead>
 <tbody>
 <tr><td><div class="b-item">Sleeper Bus — Hanoi → Sapa<span class="b-fixed-tag">fixed</span></div><div class="b-item-sub">Klook package · includes lounge access in Sapa</div></td><td class="c">—</td><td class="r b-budget">₱1,150</td><td class="r"><input class="actual-input" id="act-bus" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 </tbody>
@@ -1662,8 +1760,7 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <thead><tr><th>Item</th><th class="c">✓</th><th class="r">Budget</th><th class="r">Actual</th></tr></thead>
 <tbody>
 <tr><td><div class="b-item">Cat Cat Village entrance<span class="b-fixed-tag">fixed</span></div></td><td class="c">—</td><td class="r b-budget">₱360</td><td class="r"><input class="actual-input" id="act-catcat" oninput="recalc()" placeholder="—" type="number"/></td></tr>
-<tr id="r-slide1"><td><div class="b-item b-sub-item">Rainbow Slide — 1 ride</div></td><td class="c"><input checked="" id="rb-s1" name="slide" onchange="recalc()" type="radio" value="100"/></td><td class="r b-budget">₱100</td><td class="r"><input class="actual-input" id="act-slide1" oninput="recalc()" placeholder="—" type="number"/></td></tr>
-<tr id="r-slide3"><td><div class="b-item b-sub-item">Rainbow Slide — 3 rides</div></td><td class="c"><input id="rb-s3" name="slide" onchange="recalc()" type="radio" value="280"/></td><td class="r b-budget">₱280</td><td class="r"><input class="actual-input" id="act-slide3" oninput="recalc()" placeholder="—" type="number"/></td></tr>
+<tr id="r-slide1"><td><div class="b-item b-sub-item">Rainbow Slide — 1 ride<span class="b-fixed-tag">fixed</span></div></td><td class="c">—</td><td class="r b-budget">₱100</td><td class="r"><input class="actual-input" id="act-slide1" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 <tr id="r-drone"><td><div class="b-item b-sub-item">Drone Shot<span class="b-opt-tag">optional</span></div><div class="b-item-sub">Group cost split 4 ways</div></td><td class="c"><input id="cb-drone" onchange="recalc()" type="checkbox"/></td><td class="r b-budget">₱230</td><td class="r"><input class="actual-input" id="act-drone" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 <tr><td><div class="b-item">Motorbike back uphill<span class="b-fixed-tag">fixed</span></div></td><td class="c">—</td><td class="r b-budget">₱120</td><td class="r"><input class="actual-input" id="act-moto" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 </tbody>
@@ -1678,10 +1775,16 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <tbody>
 <tr><td><div class="b-item">Fansipan — monorail + cable car + Van Sam buffet<span class="b-fixed-tag">fixed</span></div><div class="b-item-sub">Book on Klook to skip queues · 2–3 days ahead</div></td><td class="c">—</td><td class="r b-budget">₱2,900</td><td class="r"><input class="actual-input" id="act-fans" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 <tr><td colspan="4" style="padding:6px 10px;background:var(--bg2);font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.05em;text-transform:uppercase">Free Time — afternoon optional activities</td></tr>
-<tr id="r-c6-coaster1"><td><div class="b-item b-sub-item">Alpine Coaster — 1st ride<span class="b-opt-tag">optional</span></div><div class="b-item-sub">Free shuttle from Convention Center every 30 min</div></td><td class="c"><input id="cb-c6-coaster1" onchange="recalc()" type="checkbox"/></td><td class="r b-budget">₱590</td><td class="r"><input class="actual-input" id="act-c6-coaster1" oninput="recalc()" placeholder="—" type="number"/></td></tr>
-<tr id="r-c6-coaster2"><td><div class="b-item b-sub-item">Alpine Coaster — 2nd ride<span class="b-opt-tag">optional</span></div><div class="b-item-sub">50% off — only if doing 1st ride</div></td><td class="c"><input id="cb-c6-coaster2" onchange="recalc()" type="checkbox"/></td><td class="r b-budget">₱295</td><td class="r"><input class="actual-input" id="act-c6-coaster2" oninput="recalc()" placeholder="—" type="number"/></td></tr>
-<tr id="r-c6-moana"><td><div class="b-item b-sub-item">Moana Sapa entrance<span class="b-opt-tag">optional</span></div><div class="b-item-sub">Includes 1 free coffee or tea</div></td><td class="c"><input id="cb-c6-moana" onchange="recalc()" type="checkbox"/></td><td class="r b-budget">₱207</td><td class="r"><input class="actual-input" id="act-c6-moana" oninput="recalc()" placeholder="—" type="number"/></td></tr>
-<tr id="r-c6-other"><td><div class="b-item b-sub-item">Other: <input class="other-name-input" id="other-c6-name" placeholder="activity name" type="text"/><span class="b-opt-tag">optional</span></div></td><td class="c"><input id="cb-c6-other" onchange="recalc()" type="checkbox"/></td><td class="r"><span class="b-empty">—</span></td><td class="r"><input class="actual-input" id="act-c6-other" oninput="recalc()" placeholder="—" type="number"/></td></tr>
+<tr class="free-options-row"><td colspan="4"><div class="free-option-buttons" data-day="6">
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('c6-coaster', this)">Option 1: Alpine Coaster</button>
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('c6-moana', this)">Option 2: Moana Sapa</button>
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('c6-gokart', this)">Option 3: Go Kart at Sapa Fairy Valley</button>
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('c6-other', this)">Option 4: Others</button>
+</div><div class="b-item-sub" style="margin-top:6px">You can open and choose more than one option. Only checked options are added to the budget total.</div></td></tr>
+<tr class="free-detail-row is-hidden" data-option-detail="c6-coaster" id="r-c6-coaster1"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">Alpine Coaster<span class="b-opt-tag">optional</span></div><div class="b-item-sub">1 ride only · free shuttle from Convention Center every 30 min</div></div><label class="c"><input id="cb-c6-coaster1" onchange="recalc(); keepFreeDetailOpen('c6-coaster')" type="checkbox"/> Choose</label><div class="r b-budget">₱590</div><input class="actual-input" id="act-c6-coaster1" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
+<tr class="free-detail-row is-hidden" data-option-detail="c6-moana" id="r-c6-moana"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">Moana Sapa entrance<span class="b-opt-tag">optional</span></div><div class="b-item-sub">Includes 1 free coffee or tea</div></div><label class="c"><input id="cb-c6-moana" onchange="recalc(); keepFreeDetailOpen('c6-moana')" type="checkbox"/> Choose</label><div class="r b-budget">₱207</div><input class="actual-input" id="act-c6-moana" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
+<tr class="free-detail-row is-hidden" data-option-detail="c6-gokart" id="r-c6-gokart"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">Go Kart at Sapa Fairy Valley<span class="b-opt-tag">optional</span></div><div class="b-item-sub">Entrance + go-kart package</div></div><label class="c"><input id="cb-c6-gokart" onchange="recalc(); keepFreeDetailOpen('c6-gokart')" type="checkbox"/> Choose</label><div class="r b-budget">₱500</div><input class="actual-input" id="act-c6-gokart" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
+<tr class="free-detail-row is-hidden" data-option-detail="c6-other" id="r-c6-other"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">Other: <input class="other-name-input" id="other-c6-name" placeholder="activity name" type="text"/><span class="b-opt-tag">optional</span></div><div class="b-item-sub">Use actual cost as the budget if selected.</div></div><label class="c"><input id="cb-c6-other" onchange="recalc(); keepFreeDetailOpen('c6-other')" type="checkbox"/> Choose</label><input class="actual-input" id="budget-c6-other" oninput="recalc()" placeholder="Budget" type="number"/><input class="actual-input" id="act-c6-other" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
 </tbody>
 </table>
 <table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt6-b">₱2,900</td><td class="r" id="dt6-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
@@ -1695,18 +1798,34 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <tr><td><div class="b-item">Roundtrip transport to Rong May<span class="b-fixed-tag">fixed</span></div><div class="b-item-sub">Budget for flexible ride options to/from Glass Bridge</div></td><td class="c">—</td><td class="r b-budget">₱500</td><td class="r"><input class="actual-input" id="act-taxi7" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 <tr><td><div class="b-item">Glass Bridge + Elevator ticket<span class="b-fixed-tag">fixed</span></div></td><td class="c">—</td><td class="r b-budget">₱1,200</td><td class="r"><input class="actual-input" id="act-glass" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 <tr><td colspan="4" style="padding:6px 10px;background:var(--bg2);font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.05em;text-transform:uppercase">Glass Bridge Games — optional add-ons (₱350 each)</td></tr>
-<tr id="r-swing"><td><div class="b-item b-sub-item">💀 Death Swing<span class="b-opt-tag">optional</span></div></td><td class="c"><input id="cb-swing" onchange="recalc()" type="checkbox"/></td><td class="r b-budget">₱350</td><td class="r"><input class="actual-input" id="act-swing" oninput="recalc()" placeholder="—" type="number"/></td></tr>
-<tr id="r-zip"><td><div class="b-item b-sub-item">🪂 Zipline<span class="b-opt-tag">optional</span></div></td><td class="c"><input id="cb-zip" onchange="recalc()" type="checkbox"/></td><td class="r b-budget">₱350</td><td class="r"><input class="actual-input" id="act-zip" oninput="recalc()" placeholder="—" type="number"/></td></tr>
-<tr id="r-rope"><td><div class="b-item b-sub-item">🚴 Rope Bike<span class="b-opt-tag">optional</span></div></td><td class="c"><input id="cb-rope" onchange="recalc()" type="checkbox"/></td><td class="r b-budget">₱350</td><td class="r"><input class="actual-input" id="act-rope" oninput="recalc()" placeholder="—" type="number"/></td></tr>
-<tr id="r-btc"><td><div class="b-item b-sub-item">☁️ Bridge Through Clouds<span class="b-opt-tag">optional</span></div></td><td class="c"><input id="cb-btc" onchange="recalc()" type="checkbox"/></td><td class="r b-budget">₱350</td><td class="r"><input class="actual-input" id="act-btc" oninput="recalc()" placeholder="—" type="number"/></td></tr>
+<tr class="free-options-row"><td colspan="4"><div class="free-option-buttons" data-day="7-games">
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('g7-swing', this)">Option 1: Death Swing</button>
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('g7-zip', this)">Option 2: Zipline</button>
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('g7-rope', this)">Option 3: Rope Bike</button>
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('g7-btc', this)">Option 4: Bridge Through Clouds</button>
+</div><div class="b-item-sub" style="margin-top:6px">You can open and choose more than one game. Only checked games are added to the budget total.</div></td></tr>
+<tr class="free-detail-row is-hidden" data-option-detail="g7-swing" id="r-swing"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">💀 Death Swing<span class="b-opt-tag">optional</span></div><div class="b-item-sub">Adrenaline option at Rong May Glass Bridge.</div></div><label class="c"><input id="cb-swing" onchange="recalc(); keepFreeDetailOpen('g7-swing')" type="checkbox"/> Choose</label><div class="r b-budget">₱350</div><input class="actual-input" id="act-swing" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
+<tr class="free-detail-row is-hidden" data-option-detail="g7-zip" id="r-zip"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">🪂 Zipline<span class="b-opt-tag">optional</span></div><div class="b-item-sub">Great if you want a quick thrill and views.</div></div><label class="c"><input id="cb-zip" onchange="recalc(); keepFreeDetailOpen('g7-zip')" type="checkbox"/> Choose</label><div class="r b-budget">₱350</div><input class="actual-input" id="act-zip" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
+<tr class="free-detail-row is-hidden" data-option-detail="g7-rope" id="r-rope"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">🚴 Rope Bike<span class="b-opt-tag">optional</span></div><div class="b-item-sub">Balance-bike style activity over the valley.</div></div><label class="c"><input id="cb-rope" onchange="recalc(); keepFreeDetailOpen('g7-rope')" type="checkbox"/> Choose</label><div class="r b-budget">₱350</div><input class="actual-input" id="act-rope" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
+<tr class="free-detail-row is-hidden" data-option-detail="g7-btc" id="r-btc"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">☁️ Bridge Through Clouds<span class="b-opt-tag">optional</span></div><div class="b-item-sub">Scenic game/photo activity at the Glass Bridge site.</div></div><label class="c"><input id="cb-btc" onchange="recalc(); keepFreeDetailOpen('g7-btc')" type="checkbox"/> Choose</label><div class="r b-budget">₱350</div><input class="actual-input" id="act-btc" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
 <tr><td colspan="4" style="padding:6px 10px;background:var(--bg2);font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.05em;text-transform:uppercase">Waterfall — pick one (recommended: Silver)</td></tr>
-<tr id="r-silver"><td><div class="b-item b-sub-item">Silver Waterfall</div><div class="b-item-sub">5–10 min from Rong May · ~45 min visit</div></td><td class="c"><input checked="" id="rb-silver" name="wfall" onchange="recalc()" type="radio" value="50"/></td><td class="r b-budget">~₱50</td><td class="r"><input class="actual-input" id="act-silver" oninput="recalc()" placeholder="—" type="number"/></td></tr>
-<tr id="r-love"><td><div class="b-item b-sub-item">Love Waterfall</div><div class="b-item-sub">15–20 min from Rong May · 20–30 min forest walk</div></td><td class="c"><input id="rb-love" name="wfall" onchange="recalc()" type="radio" value="150"/></td><td class="r b-budget">~₱150</td><td class="r"><input class="actual-input" id="act-love" oninput="recalc()" placeholder="—" type="number"/></td></tr>
+<tr class="free-options-row"><td colspan="4"><div class="free-option-buttons" data-day="7-waterfall">
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('w7-silver', this)">Option 1: Silver Waterfall</button>
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('w7-love', this)">Option 2: Love Waterfall</button>
+</div><div class="b-item-sub" style="margin-top:6px">Open the waterfall option you want to compare. Use the radio button to choose the one that gets added to the total.</div></td></tr>
+<tr class="free-detail-row" data-option-detail="w7-silver" id="r-silver"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">Silver Waterfall</div><div class="b-item-sub">5–10 min from Rong May · ~45 min visit · recommended for timing.</div></div><label class="c"><input checked="" id="rb-silver" name="wfall" onchange="recalc(); keepFreeDetailOpen('w7-silver')" type="radio" value="50"/> Choose</label><div class="r b-budget">~₱50</div><input class="actual-input" id="act-silver" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
+<tr class="free-detail-row is-hidden" data-option-detail="w7-love" id="r-love"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">Love Waterfall</div><div class="b-item-sub">15–20 min from Rong May · 20–30 min forest walk · ~1.5 hrs total.</div></div><label class="c"><input id="rb-love" name="wfall" onchange="recalc(); keepFreeDetailOpen('w7-love')" type="radio" value="150"/> Choose</label><div class="r b-budget">~₱150</div><input class="actual-input" id="act-love" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
 <tr><td colspan="4" style="padding:6px 10px;background:var(--bg2);font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.05em;text-transform:uppercase">Free Time — afternoon optional activities</td></tr>
-<tr id="r-c7-coaster1"><td><div class="b-item b-sub-item">Alpine Coaster — 1st ride<span class="b-opt-tag">optional</span></div><div class="b-item-sub">If skipped Oct 6</div></td><td class="c"><input id="cb-c7-coaster1" onchange="recalc()" type="checkbox"/></td><td class="r b-budget">₱590</td><td class="r"><input class="actual-input" id="act-c7-coaster1" oninput="recalc()" placeholder="—" type="number"/></td></tr>
-<tr id="r-c7-coaster2"><td><div class="b-item b-sub-item">Alpine Coaster — 2nd ride<span class="b-opt-tag">optional</span></div><div class="b-item-sub">50% off</div></td><td class="c"><input id="cb-c7-coaster2" onchange="recalc()" type="checkbox"/></td><td class="r b-budget">₱295</td><td class="r"><input class="actual-input" id="act-c7-coaster2" oninput="recalc()" placeholder="—" type="number"/></td></tr>
-<tr id="r-c7-moana"><td><div class="b-item b-sub-item">Moana Sapa entrance<span class="b-opt-tag">optional</span></div><div class="b-item-sub">If skipped Oct 6 · includes 1 free drink</div></td><td class="c"><input id="cb-c7-moana" onchange="recalc()" type="checkbox"/></td><td class="r b-budget">₱207</td><td class="r"><input class="actual-input" id="act-c7-moana" oninput="recalc()" placeholder="—" type="number"/></td></tr>
-<tr id="r-c7-other"><td><div class="b-item b-sub-item">Other: <input class="other-name-input" id="other-c7-name" placeholder="activity name" type="text"/><span class="b-opt-tag">optional</span></div></td><td class="c"><input id="cb-c7-other" onchange="recalc()" type="checkbox"/></td><td class="r"><span class="b-empty">—</span></td><td class="r"><input class="actual-input" id="act-c7-other" oninput="recalc()" placeholder="—" type="number"/></td></tr>
+<tr class="free-options-row"><td colspan="4"><div class="free-option-buttons" data-day="7">
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('c7-coaster', this)">Option 1: Alpine Coaster</button>
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('c7-moana', this)">Option 2: Moana Sapa</button>
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('c7-gokart', this)">Option 3: Go Kart at Sapa Fairy Valley</button>
+<button class="free-option-btn" type="button" onclick="toggleFreeOption('c7-other', this)">Option 4: Others</button>
+</div><div class="b-item-sub" style="margin-top:6px">You can open and choose more than one option. Only checked options are added to the budget total.</div></td></tr>
+<tr class="free-detail-row is-hidden" data-option-detail="c7-coaster" id="r-c7-coaster1"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">Alpine Coaster<span class="b-opt-tag">optional</span></div><div class="b-item-sub">1 ride only · free shuttle from Convention Center every 30 min</div></div><label class="c"><input id="cb-c7-coaster1" onchange="recalc(); keepFreeDetailOpen('c7-coaster')" type="checkbox"/> Choose</label><div class="r b-budget">₱590</div><input class="actual-input" id="act-c7-coaster1" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
+<tr class="free-detail-row is-hidden" data-option-detail="c7-moana" id="r-c7-moana"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">Moana Sapa entrance<span class="b-opt-tag">optional</span></div><div class="b-item-sub">Includes 1 free coffee or tea</div></div><label class="c"><input id="cb-c7-moana" onchange="recalc(); keepFreeDetailOpen('c7-moana')" type="checkbox"/> Choose</label><div class="r b-budget">₱207</div><input class="actual-input" id="act-c7-moana" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
+<tr class="free-detail-row is-hidden" data-option-detail="c7-gokart" id="r-c7-gokart"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">Go Kart at Sapa Fairy Valley<span class="b-opt-tag">optional</span></div><div class="b-item-sub">Entrance + go-kart package</div></div><label class="c"><input id="cb-c7-gokart" onchange="recalc(); keepFreeDetailOpen('c7-gokart')" type="checkbox"/> Choose</label><div class="r b-budget">₱500</div><input class="actual-input" id="act-c7-gokart" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
+<tr class="free-detail-row is-hidden" data-option-detail="c7-other" id="r-c7-other"><td colspan="4"><div class="free-detail-card"><div><div class="b-item">Other: <input class="other-name-input" id="other-c7-name" placeholder="activity name" type="text"/><span class="b-opt-tag">optional</span></div><div class="b-item-sub">Use actual cost as the budget if selected.</div></div><label class="c"><input id="cb-c7-other" onchange="recalc(); keepFreeDetailOpen('c7-other')" type="checkbox"/> Choose</label><input class="actual-input" id="budget-c7-other" oninput="recalc()" placeholder="Budget" type="number"/><input class="actual-input" id="act-c7-other" oninput="recalc()" placeholder="Actual" type="number"/></div></td></tr>
 </tbody>
 </table>
 <table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt7-b">₱1,550</td><td class="r" id="dt7-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
@@ -1755,69 +1874,645 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 </table>
 <table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup><tbody><tr class="day-total-row"><td colspan="2">Accommodation total / person</td><td class="r">₱5,000</td><td class="r" id="dta-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
 </div>
-<!-- GRAND TOTAL -->
-<div class="grand-total">
-<div class="gt-head">Trip Total Summary</div>
-<div class="gt-body">
-<div class="gt-row"><span class="gt-lbl">Oct 4 — transport to Sapa</span><span class="gt-val" id="gt4">₱1,150</span></div>
-<div class="gt-row"><span class="gt-lbl">Oct 5 — Cat Cat + activities</span><span class="gt-val" id="gt5">₱580</span></div>
-<div class="gt-row"><span class="gt-lbl">Oct 6 — Fansipan day</span><span class="gt-val" id="gt6">₱2,900</span></div>
-<div class="gt-row"><span class="gt-lbl">Oct 7 — Glass Bridge day</span><span class="gt-val" id="gt7">₱1,550</span></div>
-<div class="gt-row"><span class="gt-lbl">Oct 8 — transport to Hanoi</span><span class="gt-val" id="gt8">₱800</span></div>
-<div class="gt-row"><span class="gt-lbl">Oct 9 — Bai Dinh · Trang An · Mua Cave</span><span class="gt-val" id="gt9">₱3,200</span></div>
-<div class="gt-row"><span class="gt-lbl">Oct 10 — Ha Long Bay cruise</span><span class="gt-val" id="gt10">₱2,600</span></div>
-<div class="gt-row"><span class="gt-lbl">Accommodation — Sapa (3 nights)</span><span class="gt-val">₱2,500</span></div>
-<div class="gt-row"><span class="gt-lbl">Accommodation — Hanoi (3 nights)</span><span class="gt-val">₱2,500</span></div>
-<hr class="gt-divider"/>
-<div class="gt-final"><span class="gt-final-lbl">Budgeted total / person</span><span class="gt-final-val" id="grand-b">—</span></div>
-<div class="gt-final" style="margin-top:8px"><span class="gt-final-lbl">Actual total / person</span><span class="gt-actual-val" id="grand-a">—</span></div>
-</div>
-<div class="gt-note">Excludes: flights · food &amp; drinks · Grab fares · Oct 11 activities</div>
-</div>
-<!-- MEAL BUDGET -->
+
+<!-- MEAL TRACKER -->
 <div class="bsection">
-<div class="bsec-head"><i class="ti ti-tools-kitchen-2" style="color:var(--text3)"></i><span class="bsec-title">Meal Budget</span><span class="bsec-date">Oct 4–11 · per person</span></div>
-<table class="meal-budget-table btable"><colgroup><col class="item" style="width:58%"/><col class="budget" style="width:21%"/><col class="actual" style="width:21%"/></colgroup>
-<thead><tr><th>Meal</th><th class="r">Budget</th><th class="r">Actual</th></tr></thead>
-<tbody>
-<tr><td colspan="3" style="padding-left:10px;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;background:var(--bg2)">Oct 4</td></tr>
-<tr><td><div class="b-item">🍽️ Dinner</div></td><td class="r"><input class="actual-input" id="meal-oct4-dinner" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct4-dinner" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td colspan="3" style="padding-left:10px;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;background:var(--bg2)">Oct 5</td></tr>
-<tr><td><div class="b-item">🌅 Breakfast</div></td><td class="r"><input class="actual-input" id="meal-oct5-bfast" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct5-bfast" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td><div class="b-item">☀️ Lunch</div></td><td class="r"><input class="actual-input" id="meal-oct5-lunch" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct5-lunch" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td><div class="b-item">🍽️ Dinner</div></td><td class="r"><input class="actual-input" id="meal-oct5-dinner" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct5-dinner" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td colspan="3" style="padding-left:10px;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;background:var(--bg2)">Oct 6 <span style="font-weight:400;text-transform:none;letter-spacing:0">(lunch included — Van Sam buffet in Fansipan ticket)</span></td></tr>
-<tr><td><div class="b-item">🌅 Breakfast</div></td><td class="r"><input class="actual-input" id="meal-oct6-bfast" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct6-bfast" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td><div class="b-item">🍽️ Dinner</div></td><td class="r"><input class="actual-input" id="meal-oct6-dinner" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct6-dinner" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td colspan="3" style="padding-left:10px;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;background:var(--bg2)">Oct 7</td></tr>
-<tr><td><div class="b-item">🌅 Breakfast</div></td><td class="r"><input class="actual-input" id="meal-oct7-bfast" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct7-bfast" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td><div class="b-item">☀️ Lunch</div></td><td class="r"><input class="actual-input" id="meal-oct7-lunch" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct7-lunch" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td><div class="b-item">🍽️ Dinner</div></td><td class="r"><input class="actual-input" id="meal-oct7-dinner" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct7-dinner" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td colspan="3" style="padding-left:10px;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;background:var(--bg2)">Oct 8</td></tr>
-<tr><td><div class="b-item">🌅 Breakfast</div></td><td class="r"><input class="actual-input" id="meal-oct8-bfast" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct8-bfast" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td><div class="b-item">🍽️ Dinner</div></td><td class="r"><input class="actual-input" id="meal-oct8-dinner" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct8-dinner" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td colspan="3" style="padding-left:10px;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;background:var(--bg2)">Oct 9 <span style="font-weight:400;text-transform:none;letter-spacing:0">(lunch included in tour)</span></td></tr>
-<tr><td><div class="b-item">🌅 Breakfast</div></td><td class="r"><input class="actual-input" id="meal-oct9-bfast" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct9-bfast" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td><div class="b-item">🍽️ Dinner</div></td><td class="r"><input class="actual-input" id="meal-oct9-dinner" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct9-dinner" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td colspan="3" style="padding-left:10px;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;background:var(--bg2)">Oct 10 <span style="font-weight:400;text-transform:none;letter-spacing:0">(lunch + afternoon tea included in tour)</span></td></tr>
-<tr><td><div class="b-item">🌅 Breakfast</div></td><td class="r"><input class="actual-input" id="meal-oct10-bfast" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct10-bfast" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td><div class="b-item">🍽️ Dinner</div></td><td class="r"><input class="actual-input" id="meal-oct10-dinner" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct10-dinner" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td colspan="3" style="padding-left:10px;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;background:var(--bg2)">Oct 11</td></tr>
-<tr><td><div class="b-item">🌅 Breakfast</div></td><td class="r"><input class="actual-input" id="meal-oct11-bfast" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct11-bfast" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-<tr><td><div class="b-item">☀️ Lunch</div></td><td class="r"><input class="actual-input" id="meal-oct11-lunch" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct11-lunch" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
-</tbody>
-</table>
-<table class="meal-budget-table btable"><colgroup><col class="item" style="width:58%"/><col class="budget" style="width:21%"/><col class="actual" style="width:21%"/></colgroup><tbody>
-<tr class="day-total-row"><td>Total meal budget / person</td><td class="r" id="meal-total-b" style="font-size:13px;font-weight:600;color:var(--text)">—</td><td class="r" id="meal-total-a" style="font-size:13px;font-weight:600;color:var(--blue-text)">—</td></tr>
-</tbody></table>
+<div class="bsec-head"><i class="ti ti-tools-kitchen-2" style="color:var(--text3)"></i><span class="bsec-title">Meal Tracker</span><span class="bsec-date">17 meals + snacks · per person</span></div>
+<div class="tracker-note">Paid package tours already include <b>3 lunch meals</b>: Fansipan Van Sam buffet, Oct 9 tour lunch, and Oct 10 cruise lunch/tea. Enter your total budget for the remaining meals and add meal rows as needed.</div>
+<div class="tracker-summary">
+  <div class="tracker-stat"><div class="lbl">Meal Budget</div><div class="val"><input class="actual-input" id="meal-allowance" oninput="recalcMeals()" placeholder="₱0" type="number" style="width:100%;text-align:center"/></div></div>
+  <div class="tracker-stat"><div class="lbl">Spent</div><div class="val" id="meal-total-a">—</div></div>
+  <div class="tracker-stat remaining"><div class="lbl">Remaining</div><div class="val" id="meal-remaining">—</div></div>
 </div>
-<!-- TOTAL ACTUAL COST -->
+<table class="tracker-table btable"><thead><tr><th style="width:16%">Day</th><th style="width:18%">Meal</th><th>Description</th><th class="r" style="width:17%">Spent</th><th class="c" style="width:42px"></th></tr></thead><tbody id="meal-tracker-body">
+<tr data-tracker="meal" data-row="1">
+<td><select class="tracker-select" id="meal-day-1" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-1" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-1" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-1" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',1)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="2">
+<td><select class="tracker-select" id="meal-day-2" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-2" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-2" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-2" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',2)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="3">
+<td><select class="tracker-select" id="meal-day-3" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-3" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-3" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-3" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',3)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="4">
+<td><select class="tracker-select" id="meal-day-4" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-4" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-4" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-4" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',4)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="5">
+<td><select class="tracker-select" id="meal-day-5" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-5" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-5" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-5" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',5)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="6">
+<td><select class="tracker-select" id="meal-day-6" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-6" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-6" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-6" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',6)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="7">
+<td><select class="tracker-select" id="meal-day-7" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-7" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-7" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-7" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',7)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="8">
+<td><select class="tracker-select" id="meal-day-8" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-8" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-8" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-8" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',8)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="9">
+<td><select class="tracker-select" id="meal-day-9" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-9" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-9" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-9" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',9)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="10">
+<td><select class="tracker-select" id="meal-day-10" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-10" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-10" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-10" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',10)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="11">
+<td><select class="tracker-select" id="meal-day-11" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-11" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-11" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-11" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',11)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="12">
+<td><select class="tracker-select" id="meal-day-12" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-12" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-12" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-12" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',12)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="13">
+<td><select class="tracker-select" id="meal-day-13" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-13" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-13" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-13" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',13)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="14">
+<td><select class="tracker-select" id="meal-day-14" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-14" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-14" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-14" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',14)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="15">
+<td><select class="tracker-select" id="meal-day-15" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-15" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-15" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-15" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',15)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="16">
+<td><select class="tracker-select" id="meal-day-16" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-16" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-16" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-16" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',16)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="17">
+<td><select class="tracker-select" id="meal-day-17" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-17" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-17" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-17" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',17)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="18">
+<td><select class="tracker-select" id="meal-day-18" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-18" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-18" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-18" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',18)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="19">
+<td><select class="tracker-select" id="meal-day-19" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-19" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-19" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-19" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',19)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="20">
+<td><select class="tracker-select" id="meal-day-20" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-20" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-20" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-20" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',20)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="21">
+<td><select class="tracker-select" id="meal-day-21" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-21" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-21" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-21" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',21)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="22">
+<td><select class="tracker-select" id="meal-day-22" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-22" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-22" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-22" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',22)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="23">
+<td><select class="tracker-select" id="meal-day-23" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-23" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-23" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-23" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',23)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="24">
+<td><select class="tracker-select" id="meal-day-24" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-24" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-24" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-24" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',24)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="25">
+<td><select class="tracker-select" id="meal-day-25" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-25" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-25" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-25" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',25)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="26">
+<td><select class="tracker-select" id="meal-day-26" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-26" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-26" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-26" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',26)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="27">
+<td><select class="tracker-select" id="meal-day-27" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-27" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-27" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-27" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',27)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="28">
+<td><select class="tracker-select" id="meal-day-28" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-28" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-28" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-28" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',28)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="29">
+<td><select class="tracker-select" id="meal-day-29" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-29" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-29" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-29" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',29)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="meal" data-row="30">
+<td><select class="tracker-select" id="meal-day-30" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><select class="tracker-select" id="meal-type-30" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
+<td><input class="tracker-input" id="meal-desc-30" oninput="recalcMeals()" placeholder="Description" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="meal-spent-30" oninput="recalcMeals()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('meal',30)">×</button></td>
+</tr>
+<tr class="day-total-row"><td colspan="3">Meal budget / person</td><td class="r" id="meal-total-b" style="font-size:13px;font-weight:600;color:var(--text)">—</td><td class="r" id="meal-total-a-bottom" style="font-size:13px;font-weight:600;color:var(--blue-text)">—</td></tr>
+</tbody></table>
+<div class="tracker-action-bar"><button class="tracker-add-btn" type="button" onclick="addTrackerRow('meal')"><i class="ti ti-plus"></i> Add meal</button></div>
+</div>
+<!-- TRANSPO TRACKER -->
+<div class="bsection">
+<div class="bsec-head"><i class="ti ti-car" style="color:var(--text3)"></i><span class="bsec-title">Transpo Tracker</span><span class="bsec-date">Trip transport allowance · per person</span></div>
+<div class="tracker-summary">
+  <div class="tracker-stat"><div class="lbl">Transpo Budget</div><div class="val"><input class="actual-input" id="transpo-allowance" oninput="recalcTranspo()" placeholder="₱0" type="number" style="width:100%;text-align:center"/></div></div>
+  <div class="tracker-stat"><div class="lbl">Spent</div><div class="val" id="transpo-total-a">—</div></div>
+  <div class="tracker-stat remaining"><div class="lbl">Remaining</div><div class="val" id="transpo-remaining">—</div></div>
+</div>
+<table class="tracker-table btable"><thead><tr><th style="width:18%">Day</th><th>Description</th><th class="r" style="width:18%">Spent</th><th class="c" style="width:42px"></th></tr></thead><tbody id="trans-tracker-body">
+<tr data-tracker="trans" data-row="1">
+<td><select class="tracker-select" id="trans-day-1" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-1" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-1" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',1)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="2">
+<td><select class="tracker-select" id="trans-day-2" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-2" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-2" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',2)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="3">
+<td><select class="tracker-select" id="trans-day-3" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-3" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-3" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',3)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="4">
+<td><select class="tracker-select" id="trans-day-4" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-4" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-4" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',4)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="5">
+<td><select class="tracker-select" id="trans-day-5" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-5" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-5" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',5)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="6">
+<td><select class="tracker-select" id="trans-day-6" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-6" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-6" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',6)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="7">
+<td><select class="tracker-select" id="trans-day-7" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-7" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-7" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',7)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="8">
+<td><select class="tracker-select" id="trans-day-8" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-8" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-8" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',8)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="9">
+<td><select class="tracker-select" id="trans-day-9" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-9" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-9" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',9)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="10">
+<td><select class="tracker-select" id="trans-day-10" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-10" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-10" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',10)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="11">
+<td><select class="tracker-select" id="trans-day-11" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-11" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-11" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',11)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="12">
+<td><select class="tracker-select" id="trans-day-12" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-12" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-12" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',12)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="13">
+<td><select class="tracker-select" id="trans-day-13" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-13" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-13" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',13)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="14">
+<td><select class="tracker-select" id="trans-day-14" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-14" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-14" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',14)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="15">
+<td><select class="tracker-select" id="trans-day-15" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-15" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-15" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',15)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="16">
+<td><select class="tracker-select" id="trans-day-16" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-16" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-16" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',16)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="17">
+<td><select class="tracker-select" id="trans-day-17" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-17" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-17" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',17)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="18">
+<td><select class="tracker-select" id="trans-day-18" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-18" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-18" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',18)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="19">
+<td><select class="tracker-select" id="trans-day-19" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-19" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-19" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',19)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="20">
+<td><select class="tracker-select" id="trans-day-20" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-20" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-20" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',20)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="21">
+<td><select class="tracker-select" id="trans-day-21" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-21" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-21" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',21)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="22">
+<td><select class="tracker-select" id="trans-day-22" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-22" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-22" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',22)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="23">
+<td><select class="tracker-select" id="trans-day-23" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-23" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-23" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',23)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="24">
+<td><select class="tracker-select" id="trans-day-24" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-24" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-24" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',24)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="25">
+<td><select class="tracker-select" id="trans-day-25" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-25" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-25" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',25)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="26">
+<td><select class="tracker-select" id="trans-day-26" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-26" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-26" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',26)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="27">
+<td><select class="tracker-select" id="trans-day-27" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-27" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-27" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',27)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="28">
+<td><select class="tracker-select" id="trans-day-28" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-28" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-28" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',28)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="29">
+<td><select class="tracker-select" id="trans-day-29" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-29" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-29" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',29)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="trans" data-row="30">
+<td><select class="tracker-select" id="trans-day-30" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="trans-desc-30" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="trans-spent-30" oninput="recalcTranspo()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('trans',30)">×</button></td>
+</tr>
+<tr class="day-total-row"><td colspan="2">Transpo budget / person</td><td class="r" id="transpo-total-b" style="font-size:13px;font-weight:600;color:var(--text)">—</td><td class="r" id="transpo-total-a-bottom" style="font-size:13px;font-weight:600;color:var(--blue-text)">—</td></tr>
+</tbody></table>
+<div class="tracker-action-bar"><button class="tracker-add-btn" type="button" onclick="addTrackerRow('trans')"><i class="ti ti-plus"></i> Add transpo</button></div>
+</div>
+<!-- SHOPPING TRACKER -->
+<div class="bsection">
+<div class="bsec-head"><i class="ti ti-shopping-bag" style="color:var(--text3)"></i><span class="bsec-title">Shopping Tracker</span><span class="bsec-date">Souvenirs and personal shopping · per person</span></div>
+<div class="tracker-summary">
+  <div class="tracker-stat"><div class="lbl">Shopping Budget</div><div class="val"><input class="actual-input" id="shopping-allowance" oninput="recalcShopping()" placeholder="₱0" type="number" style="width:100%;text-align:center"/></div></div>
+  <div class="tracker-stat"><div class="lbl">Spent</div><div class="val" id="shopping-total-a">—</div></div>
+  <div class="tracker-stat remaining"><div class="lbl">Remaining</div><div class="val" id="shopping-remaining">—</div></div>
+</div>
+<table class="tracker-table btable"><thead><tr><th style="width:18%">Day</th><th>Item / Souvenir</th><th class="r" style="width:18%">Spent</th><th class="c" style="width:42px"></th></tr></thead><tbody id="shopping-tracker-body">
+<tr data-tracker="shopping" data-row="1">
+<td><select class="tracker-select" id="shopping-day-1" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-1" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-1" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',1)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="2">
+<td><select class="tracker-select" id="shopping-day-2" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-2" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-2" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',2)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="3">
+<td><select class="tracker-select" id="shopping-day-3" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-3" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-3" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',3)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="4">
+<td><select class="tracker-select" id="shopping-day-4" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-4" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-4" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',4)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="5">
+<td><select class="tracker-select" id="shopping-day-5" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-5" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-5" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',5)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="6">
+<td><select class="tracker-select" id="shopping-day-6" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-6" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-6" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',6)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="7">
+<td><select class="tracker-select" id="shopping-day-7" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-7" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-7" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',7)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="8">
+<td><select class="tracker-select" id="shopping-day-8" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-8" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-8" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',8)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="9">
+<td><select class="tracker-select" id="shopping-day-9" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-9" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-9" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',9)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="10">
+<td><select class="tracker-select" id="shopping-day-10" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-10" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-10" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',10)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="11">
+<td><select class="tracker-select" id="shopping-day-11" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-11" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-11" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',11)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="12">
+<td><select class="tracker-select" id="shopping-day-12" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-12" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-12" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',12)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="13">
+<td><select class="tracker-select" id="shopping-day-13" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-13" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-13" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',13)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="14">
+<td><select class="tracker-select" id="shopping-day-14" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-14" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-14" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',14)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="15">
+<td><select class="tracker-select" id="shopping-day-15" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-15" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-15" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',15)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="16">
+<td><select class="tracker-select" id="shopping-day-16" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-16" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-16" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',16)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="17">
+<td><select class="tracker-select" id="shopping-day-17" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-17" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-17" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',17)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="18">
+<td><select class="tracker-select" id="shopping-day-18" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-18" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-18" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',18)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="19">
+<td><select class="tracker-select" id="shopping-day-19" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-19" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-19" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',19)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="20">
+<td><select class="tracker-select" id="shopping-day-20" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-20" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-20" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',20)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="21">
+<td><select class="tracker-select" id="shopping-day-21" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-21" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-21" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',21)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="22">
+<td><select class="tracker-select" id="shopping-day-22" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-22" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-22" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',22)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="23">
+<td><select class="tracker-select" id="shopping-day-23" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-23" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-23" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',23)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="24">
+<td><select class="tracker-select" id="shopping-day-24" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-24" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-24" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',24)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="25">
+<td><select class="tracker-select" id="shopping-day-25" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-25" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-25" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',25)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="26">
+<td><select class="tracker-select" id="shopping-day-26" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-26" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-26" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',26)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="27">
+<td><select class="tracker-select" id="shopping-day-27" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-27" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-27" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',27)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="28">
+<td><select class="tracker-select" id="shopping-day-28" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-28" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-28" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',28)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="29">
+<td><select class="tracker-select" id="shopping-day-29" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-29" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-29" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',29)">×</button></td>
+</tr>
+<tr class="tracker-entry is-hidden" data-tracker="shopping" data-row="30">
+<td><select class="tracker-select" id="shopping-day-30" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
+<td><input class="tracker-input" id="shopping-desc-30" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
+<td class="r"><input class="actual-input tracker-amount" id="shopping-spent-30" oninput="recalcShopping()" placeholder="—" type="number"/></td>
+<td class="c"><button class="tracker-remove-btn" type="button" onclick="hideTrackerRow('shopping',30)">×</button></td>
+</tr>
+<tr class="day-total-row"><td colspan="2">Shopping budget / person</td><td class="r" id="shopping-total-b" style="font-size:13px;font-weight:600;color:var(--text)">—</td><td class="r" id="shopping-total-a-bottom" style="font-size:13px;font-weight:600;color:var(--blue-text)">—</td></tr>
+</tbody></table>
+<div class="tracker-action-bar"><button class="tracker-add-btn" type="button" onclick="addTrackerRow('shopping')"><i class="ti ti-plus"></i> Add shopping</button></div>
+</div>
+
+
+</div>
+</div>
+
+<!-- ============ TRIP TOTAL COST ============ -->
+<div class="panel" id="panel-tripcost">
+<div class="day-hdr"><div><div class="dname">Trip Total Cost</div><div class="dsub">Budget vs. actual spent per person</div></div></div>
+<div class="banner banner-green"><i class="ti ti-cash"></i><span>This summary uses the selected activities and each user's own Budget Tracker entries. Budget total includes activities, accommodations, meal allowance, transpo allowance, and shopping allowance. Actual total only counts fields with actual values.</span></div>
+<!-- GRAND TOTAL -->
 <div class="bsection" style="border:2px solid var(--green);box-shadow:0 4px 16px rgba(29,158,117,0.12)">
-<div class="bsec-head" style="background:var(--green-bg);border-bottom:1px solid #b8e8d4"><i class="ti ti-cash" style="color:var(--green-text)"></i><span class="bsec-title" style="color:var(--green-text)">Total Actual Cost</span><span class="bsec-date">Activities + Accommodation + Meals</span></div>
-<table class="meal-budget-table btable"><colgroup><col class="item" style="width:58%"/><col class="budget" style="width:21%"/><col class="actual" style="width:21%"/></colgroup><tbody>
-<tr class="day-total-row"><td colspan="2" style="font-size:13px;font-weight:600;color:var(--text)">Grand Actual Total / person</td><td class="r" id="grand-actual-all" style="font-size:15px;font-weight:700;color:var(--green-text)">—</td></tr>
+<div class="bsec-head" style="background:var(--green-bg);border-bottom:1px solid #b8e8d4"><i class="ti ti-cash" style="color:var(--green-text)"></i><span class="bsec-title" style="color:var(--green-text)">Trip Total Summary</span><span class="bsec-date">Budget vs. actual spent per person</span></div>
+<table class="summary-table btable"><colgroup><col style="width:52%"/><col style="width:24%"/><col style="width:24%"/></colgroup><thead><tr><th>Category</th><th>Budget Amount</th><th>Actual Spent</th></tr></thead><tbody>
+<tr><td>Oct 4 — transport to Sapa</td><td id="gt4">—</td><td id="gt4-a">—</td></tr>
+<tr><td>Oct 5 — Cat Cat + activities</td><td id="gt5">—</td><td id="gt5-a">—</td></tr>
+<tr><td>Oct 6 — Fansipan day</td><td id="gt6">—</td><td id="gt6-a">—</td></tr>
+<tr><td>Oct 7 — Glass Bridge day</td><td id="gt7">—</td><td id="gt7-a">—</td></tr>
+<tr><td>Oct 8 — transport to Hanoi</td><td id="gt8">—</td><td id="gt8-a">—</td></tr>
+<tr><td>Oct 9 — Bai Dinh · Trang An · Mua Cave</td><td id="gt9">—</td><td id="gt9-a">—</td></tr>
+<tr><td>Oct 10 — Ha Long Bay cruise</td><td id="gt10">—</td><td id="gt10-a">—</td></tr>
+<tr><td>Accommodation — Sapa (3 nights)</td><td id="gt-accom-b">₱2,500</td><td id="gt-accom-a">—</td></tr>
+<tr><td>Accommodation — Hanoi (3 nights)</td><td id="gt-hanoi-b">₱2,500</td><td id="gt-hanoi-a">—</td></tr>
+<tr><td>Meal Allowance (17 meals + snacks)</td><td id="gt-meal-b">—</td><td id="gt-meal-a">—</td></tr>
+<tr><td>Transpo Allowance</td><td id="gt-transpo-b">—</td><td id="gt-transpo-a">—</td></tr>
+<tr><td>Shopping Allowance</td><td id="gt-shopping-b">—</td><td id="gt-shopping-a">—</td></tr>
+<tr class="summary-total-row"><td>Total / person</td><td id="grand-b">—</td><td id="grand-a">—</td></tr>
 </tbody></table>
-</div>
+<div class="gt-note">Budget total includes activities, accommodations, meal allowance, transpo allowance, and shopping allowance. Flights excluded. Actual total only counts fields with actual values.</div>
 </div>
 </div>
 </div><!-- end .main -->
@@ -1849,172 +2544,221 @@ function isChecked(id) {
 function fmt(n) { return n === null ? '—' : '₱' + Math.round(n).toLocaleString(); }
 
 function recalc() {
+  function sumActualVals(ids) {
+    let total = 0, hasAny = false;
+    ids.forEach(id => { const v = getVal(id); if (v !== null) { total += v; hasAny = true; } });
+    return hasAny ? total : null;
+  }
+  function show(id, val, colorActual=false) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val === null ? '—' : fmt(val);
+  }
   // OCT 4
   const d4b = 1150;
   const d4a = getVal('act-bus');
 
   // OCT 5
-  const slideVal = document.querySelector('input[name="slide"]:checked')?.value || '100';
-  const slideB = parseInt(slideVal);
-  const slideA = slideVal === '100' ? getVal('act-slide1') : getVal('act-slide3');
   const droneB = isChecked('cb-drone') ? 230 : 0;
-  const droneA = isChecked('cb-drone') ? getVal('act-drone') : 0;
-  const d5b = 360 + slideB + droneB + 120;
-  const d5a_parts = [getVal('act-catcat'), slideA, isChecked('cb-drone') ? getVal('act-drone') : 0, getVal('act-moto')];
-  const d5a = d5a_parts.every(v => v === null) ? null : d5a_parts.reduce((s, v) => s + (v ?? (v === 0 ? 0 : 0)), 0);
-
-  // helper to sum actual with fallback to budget
-  function sumActual(items) {
-    let hasAny = false;
-    let total = 0;
-    items.forEach(({budget, actual}) => {
-      if (actual !== null) { hasAny = true; total += actual; }
-      else { total += budget; }
-    });
-    return hasAny ? total : null;
-  }
+  const d5b = 360 + 100 + droneB + 120;
+  const d5aItems = ['act-catcat', 'act-slide1', 'act-moto'];
+  if (isChecked('cb-drone')) d5aItems.push('act-drone');
+  const d5a = sumActualVals(d5aItems);
 
   // OCT 6
-  const c6_coaster1B = isChecked('cb-c6-coaster1') ? 590 : 0;
-  const c6_coaster2B = isChecked('cb-c6-coaster2') ? 295 : 0;
-  const c6_moanaB = isChecked('cb-c6-moana') ? 207 : 0;
-  const c6_otherB = 0;
-  const c6_otherA = isChecked('cb-c6-other') ? (getVal('act-c6-other') ?? 0) : 0;
-  const d6b = 2900 + c6_coaster1B + c6_coaster2B + c6_moanaB;
-  const d6ActItems = [
-    {budget: 2900, actual: getVal('act-fans')},
-    ...(isChecked('cb-c6-coaster1') ? [{budget: 590, actual: getVal('act-c6-coaster1')}] : []),
-    ...(isChecked('cb-c6-coaster2') ? [{budget: 295, actual: getVal('act-c6-coaster2')}] : []),
-    ...(isChecked('cb-c6-moana') ? [{budget: 207, actual: getVal('act-c6-moana')}] : []),
-    ...(isChecked('cb-c6-other') ? [{budget: 0, actual: c6_otherA}] : []),
-  ];
-  const d6a = sumActual(d6ActItems);
+  const c6CoasterB = isChecked('cb-c6-coaster1') ? 590 : 0;
+  const c6MoanaB = isChecked('cb-c6-moana') ? 207 : 0;
+  const c6GoKartB = isChecked('cb-c6-gokart') ? 500 : 0;
+  const c6OtherB = isChecked('cb-c6-other') ? (getVal('budget-c6-other') ?? 0) : 0;
+  const d6b = 2900 + c6CoasterB + c6MoanaB + c6GoKartB + c6OtherB;
+  const d6Ids = ['act-fans'];
+  if (isChecked('cb-c6-coaster1')) d6Ids.push('act-c6-coaster1');
+  if (isChecked('cb-c6-moana')) d6Ids.push('act-c6-moana');
+  if (isChecked('cb-c6-gokart')) d6Ids.push('act-c6-gokart');
+  if (isChecked('cb-c6-other')) d6Ids.push('act-c6-other');
+  const d6a = sumActualVals(d6Ids);
 
   // OCT 7
-  const wfallVal = parseInt(document.querySelector('input[name="wfall"]:checked')?.value || '50');
+  const wfallVal = parseInt(document.querySelector('input[name="wfall"]:checked')?.value || '50', 10);
   const wfallActId = wfallVal === 50 ? 'act-silver' : 'act-love';
   const swingB = isChecked('cb-swing') ? 350 : 0;
   const zipB = isChecked('cb-zip') ? 350 : 0;
   const ropeB = isChecked('cb-rope') ? 350 : 0;
   const btcB = isChecked('cb-btc') ? 350 : 0;
-  const c7c1B = isChecked('cb-c7-coaster1') ? 590 : 0;
-  const c7c2B = isChecked('cb-c7-coaster2') ? 295 : 0;
-  const c7mB = isChecked('cb-c7-moana') ? 207 : 0;
-  const d7b = 500 + 1200 + swingB + zipB + ropeB + btcB + wfallVal + c7c1B + c7c2B + c7mB;
-  const d7ActItems = [
-    {budget: 500, actual: getVal('act-taxi7')},
-    {budget: 1200, actual: getVal('act-glass')},
-    ...(isChecked('cb-swing') ? [{budget: 350, actual: getVal('act-swing')}] : []),
-    ...(isChecked('cb-zip') ? [{budget: 350, actual: getVal('act-zip')}] : []),
-    ...(isChecked('cb-rope') ? [{budget: 350, actual: getVal('act-rope')}] : []),
-    ...(isChecked('cb-btc') ? [{budget: 350, actual: getVal('act-btc')}] : []),
-    {budget: wfallVal, actual: getVal(wfallActId)},
-    ...(isChecked('cb-c7-coaster1') ? [{budget: 590, actual: getVal('act-c7-coaster1')}] : []),
-    ...(isChecked('cb-c7-coaster2') ? [{budget: 295, actual: getVal('act-c7-coaster2')}] : []),
-    ...(isChecked('cb-c7-moana') ? [{budget: 207, actual: getVal('act-c7-moana')}] : []),
-    ...(isChecked('cb-c7-other') ? [{budget: 0, actual: getVal('act-c7-other') ?? 0}] : []),
-  ];
-  const d7a = sumActual(d7ActItems);
+  const c7CoasterB = isChecked('cb-c7-coaster1') ? 590 : 0;
+  const c7MoanaB = isChecked('cb-c7-moana') ? 207 : 0;
+  const c7GoKartB = isChecked('cb-c7-gokart') ? 500 : 0;
+  const c7OtherB = isChecked('cb-c7-other') ? (getVal('budget-c7-other') ?? 0) : 0;
+  const d7b = 500 + 1200 + swingB + zipB + ropeB + btcB + wfallVal + c7CoasterB + c7MoanaB + c7GoKartB + c7OtherB;
+  const d7Ids = ['act-taxi7','act-glass', wfallActId];
+  if (isChecked('cb-swing')) d7Ids.push('act-swing');
+  if (isChecked('cb-zip')) d7Ids.push('act-zip');
+  if (isChecked('cb-rope')) d7Ids.push('act-rope');
+  if (isChecked('cb-btc')) d7Ids.push('act-btc');
+  if (isChecked('cb-c7-coaster1')) d7Ids.push('act-c7-coaster1');
+  if (isChecked('cb-c7-moana')) d7Ids.push('act-c7-moana');
+  if (isChecked('cb-c7-gokart')) d7Ids.push('act-c7-gokart');
+  if (isChecked('cb-c7-other')) d7Ids.push('act-c7-other');
+  const d7a = sumActualVals(d7Ids);
 
-  // OCT 8
-  const d8b = 800;
-  const d8a = getVal('act-bus8');
+  // OCT 8-10
+  const d8b = 800, d8a = getVal('act-bus8');
+  const d9b = 3200, d9a = getVal('act-tour9');
+  const d10b = 2600, d10a = getVal('act-tour10');
 
-  // OCT 9 & 10 tours
-  const d9b = 3200;
-  const d9a = getVal('act-tour9');
-  const d10b = 2600;
-  const d10a = getVal('act-tour10');
-
-  // Display day budgets
-  document.getElementById('dt4-b').textContent = fmt(d4b);
-  document.getElementById('dt4-a').textContent = d4a !== null ? fmt(d4a) : '—';
-  document.getElementById('dt5-b').textContent = fmt(d5b);
-  document.getElementById('dt5-a').textContent = d5a !== null ? fmt(d5a) : '—';
-  document.getElementById('dt6-b').textContent = fmt(d6b);
-  document.getElementById('dt6-a').textContent = d6a !== null ? fmt(d6a) : '—';
-  document.getElementById('dt7-b').textContent = fmt(d7b);
-  document.getElementById('dt7-a').textContent = d7a !== null ? fmt(d7a) : '—';
-  document.getElementById('dt8-b').textContent = fmt(d8b);
-  document.getElementById('dt8-a').textContent = d8a !== null ? fmt(d8a) : '—';
-  document.getElementById('dt9-b').textContent = fmt(d9b);
-  document.getElementById('dt9-a').textContent = d9a !== null ? fmt(d9a) : '—';
-  document.getElementById('dt10-b').textContent = fmt(d10b);
-  document.getElementById('dt10-a').textContent = d10a !== null ? fmt(d10a) : '—';
-
-  // Accom actual
+  // Accommodations
+  const accomB = 2500, hanoiB = 2500;
   const accomA = getVal('act-accom');
-  const accomHanoiA = getVal('act-accom-hanoi');
-  const accomTotalA = (accomA !== null || accomHanoiA !== null) ? (accomA ?? 2500) + (accomHanoiA ?? 2500) : null;
-  document.getElementById('dta-a').textContent = accomTotalA !== null ? fmt(accomTotalA) : '—';
+  const hanoiA = getVal('act-accom-hanoi');
+  const accomTotalA = (accomA !== null || hanoiA !== null) ? (accomA ?? 0) + (hanoiA ?? 0) : null;
 
-  // Grand budget
-  const grandB = d4b + d5b + d6b + d7b + d8b + d9b + d10b;
-  document.getElementById('gt4').textContent = fmt(d4b);
-  document.getElementById('gt5').textContent = fmt(d5b);
-  document.getElementById('gt6').textContent = fmt(d6b);
-  document.getElementById('gt7').textContent = fmt(d7b);
-  document.getElementById('gt8').textContent = fmt(d8b);
-  document.getElementById('gt9').textContent = fmt(d9b);
-  document.getElementById('gt10').textContent = fmt(d10b);
-  const grandBTotal = grandB + 5000;
-  document.getElementById('grand-b').textContent = '₱' + grandBTotal.toLocaleString();
-  // Sync overview stat
-  const ovEst = document.getElementById('ov-est');
-  if (ovEst) ovEst.textContent = fmt(grandBTotal);
+  // Display day totals
+  [['dt4',d4b,d4a],['dt5',d5b,d5a],['dt6',d6b,d6a],['dt7',d7b,d7a],['dt8',d8b,d8a],['dt9',d9b,d9a],['dt10',d10b,d10a]].forEach(([id,b,a])=>{ show(id+'-b',b); show(id+'-a',a); });
+  show('dta-a', accomTotalA);
 
-  // Grand actual (activities + accommodation)
-  const actuals = [d4a, d5a, d6a, d7a, d8a, d9a, d10a, accomA, accomHanoiA];
-  const hasAny = actuals.some(v => v !== null);
-  if (hasAny) {
-    const total = (d4a ?? d4b) + (d5a ?? d5b) + (d6a ?? d6b) + (d7a ?? d7b) + (d8a ?? d8b) + (d9a ?? d9b) + (d10a ?? d10b) + (accomA ?? 2500) + (accomHanoiA ?? 2500);
-    document.getElementById('grand-a').textContent = fmt(total);
-  } else {
-    document.getElementById('grand-a').textContent = '—';
-  }
+  // Summary category values
+  [['gt4',d4b,d4a],['gt5',d5b,d5a],['gt6',d6b,d6a],['gt7',d7b,d7a],['gt8',d8b,d8a],['gt9',d9b,d9a],['gt10',d10b,d10a]].forEach(([id,b,a])=>{ show(id,b); show(id+'-a',a); });
+  show('gt-accom-a', accomA);
+  show('gt-hanoi-a', hanoiA);
+
+  window.__activityBudgetTotal = d4b+d5b+d6b+d7b+d8b+d9b+d10b+accomB+hanoiB;
+  window.__activityActualTotal = [d4a,d5a,d6a,d7a,d8a,d9a,d10a,accomA,hanoiA].reduce((s,v)=>s+(v??0),0);
+  window.__hasActivityActual = [d4a,d5a,d6a,d7a,d8a,d9a,d10a,accomA,hanoiA].some(v=>v!==null);
   recalcMeals();
+  recalcTranspo();
+  recalcShopping();
 }
 
-function recalcMeals() {
-  const mealIds = [
-    'oct4-dinner',
-    'oct5-bfast','oct5-lunch','oct5-dinner',
-    'oct6-bfast','oct6-dinner',
-    'oct7-bfast','oct7-lunch','oct7-dinner',
-    'oct8-bfast','oct8-dinner',
-    'oct9-bfast','oct9-dinner',
-    'oct10-bfast','oct10-dinner',
-    'oct11-bfast','oct11-lunch'
-  ];
-  let totalMealB = 0, totalMealA = 0, hasAnyMealA = false;
-  mealIds.forEach(id => {
-    const b = getVal('meal-' + id) ?? 0;
-    const a = getVal('mact-' + id);
-    totalMealB += b;
-    if (a !== null) { hasAnyMealA = true; totalMealA += a; } else { totalMealA += b; }
-  });
-  document.getElementById('meal-total-b').textContent = totalMealB > 0 ? fmt(totalMealB) : '—';
-  document.getElementById('meal-total-a').textContent = hasAnyMealA ? fmt(totalMealA) : '—';
-
-  // Grand actual all: parse grand-a (activities+accom) then add meals
-  const grandActText = document.getElementById('grand-a').textContent;
-  const actBase = (grandActText && grandActText !== '—') ? parseFloat(grandActText.replace(/[₱,\s]/g,'')) : null;
-
-  const hasActivitiesActual = actBase !== null && !isNaN(actBase);
-  const hasMealsActual = hasAnyMealA && totalMealB > 0;
-
-  if (hasActivitiesActual || hasMealsActual) {
-    const base = hasActivitiesActual ? actBase : 0;
-    const meals = hasMealsActual ? totalMealA : 0;
-    document.getElementById('grand-actual-all').textContent = fmt(base + meals);
-  } else {
-    document.getElementById('grand-actual-all').textContent = '—';
+function calcTracker(kind, max=30) {
+  let spent = 0, hasAny = false;
+  for (let i=1;i<=max;i++) {
+    const id = kind === 'trans' ? 'trans-spent-' + i : kind + '-spent-' + i;
+    const v = getVal(id);
+    if (v !== null) { spent += v; hasAny = true; }
   }
+  return { spent, hasAny };
 }
-
+function recalcMeals() {
+  const allowance = getVal('meal-allowance') ?? 0;
+  const {spent, hasAny} = calcTracker('meal');
+  const remaining = allowance - spent;
+  ['meal-total-b','gt-meal-b'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent = allowance > 0 ? fmt(allowance) : '—'; });
+  ['meal-total-a','meal-total-a-bottom','gt-meal-a'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent = hasAny ? fmt(spent) : '—'; });
+  const rem = document.getElementById('meal-remaining'); if(rem) rem.textContent = allowance > 0 ? fmt(remaining) : '—';
+  recalcGrandAll();
+}
+function recalcTranspo() {
+  const allowance = getVal('transpo-allowance') ?? 0;
+  const {spent, hasAny} = calcTracker('trans');
+  const remaining = allowance - spent;
+  ['transpo-total-b','gt-transpo-b'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent = allowance > 0 ? fmt(allowance) : '—'; });
+  ['transpo-total-a','transpo-total-a-bottom','gt-transpo-a'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent = hasAny ? fmt(spent) : '—'; });
+  const rem = document.getElementById('transpo-remaining'); if(rem) rem.textContent = allowance > 0 ? fmt(remaining) : '—';
+  recalcGrandAll();
+}
+function recalcShopping() {
+  const allowance = getVal('shopping-allowance') ?? 0;
+  const {spent, hasAny} = calcTracker('shopping');
+  const remaining = allowance - spent;
+  ['shopping-total-b','gt-shopping-b'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent = allowance > 0 ? fmt(allowance) : '—'; });
+  ['shopping-total-a','shopping-total-a-bottom','gt-shopping-a'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent = hasAny ? fmt(spent) : '—'; });
+  const rem = document.getElementById('shopping-remaining'); if(rem) rem.textContent = allowance > 0 ? fmt(remaining) : '—';
+  recalcGrandAll();
+}
+function recalcGrandAll() {
+  const mealB = getVal('meal-allowance') ?? 0;
+  const transB = getVal('transpo-allowance') ?? 0;
+  const shoppingB = getVal('shopping-allowance') ?? 0;
+  const meal = calcTracker('meal');
+  const trans = calcTracker('trans');
+  const shopping = calcTracker('shopping');
+  const grandBudget = (window.__activityBudgetTotal || 0) + mealB + transB + shoppingB;
+  const hasActual = !!window.__hasActivityActual || meal.hasAny || trans.hasAny || shopping.hasAny;
+  const actualTotal = (window.__activityActualTotal || 0) + meal.spent + trans.spent + shopping.spent;
+  const gb = document.getElementById('grand-b'); if(gb) gb.textContent = fmt(grandBudget);
+  const ga = document.getElementById('grand-a'); if(ga) ga.textContent = hasActual ? fmt(actualTotal) : '—';
+  const ovEst = document.getElementById('ov-est'); if (ovEst) ovEst.textContent = fmt(grandBudget);
+}
+function toggleFreeOption(key, btn) {
+  const row = document.querySelector(`[data-option-detail="${key}"]`);
+  if (!row) return;
+  const willShow = row.classList.contains('is-hidden');
+  row.classList.toggle('is-hidden', !willShow);
+  if (btn) btn.classList.toggle('active', willShow);
+}
+function keepFreeDetailOpen(key) {
+  const row = document.querySelector(`[data-option-detail="${key}"]`);
+  if (row) row.classList.remove('is-hidden');
+  const btn = document.querySelector(`.free-option-btn[onclick*="${key}"]`);
+  if (btn) btn.classList.add('active');
+}
+function restoreExpandableBudgetRows() {
+  document.querySelectorAll('.free-detail-row').forEach(row => {
+    const key = row.dataset.optionDetail;
+    if (!key) return;
+    const hasValue = Array.from(row.querySelectorAll('input')).some(input => (input.type === 'checkbox' && input.checked) || (input.type !== 'checkbox' && input.value));
+    if (hasValue) keepFreeDetailOpen(key);
+  });
+  ['meal','trans','shopping'].forEach(kind => {
+    for (let i=1;i<=30;i++) {
+      const row = document.querySelector(`tr[data-tracker="${kind}"][data-row="${i}"]`);
+      if (!row) continue;
+      const hasValue = Array.from(row.querySelectorAll('input,select')).some(el => el.value);
+      if (i === 1 || hasValue) row.classList.remove('is-hidden');
+    }
+  });
+}
+function addTrackerRow(kind) {
+  const row = Array.from(document.querySelectorAll(`tr[data-tracker="${kind}"]`)).find(r => r.classList.contains('is-hidden'));
+  if (row) row.classList.remove('is-hidden');
+}
+function hideTrackerRow(kind, idx) {
+  const row = document.querySelector(`tr[data-tracker="${kind}"][data-row="${idx}"]`);
+  if (!row || idx === 1) return;
+  row.querySelectorAll('input,select').forEach(el => { el.value = ''; });
+  row.classList.add('is-hidden');
+  if (kind === 'meal') recalcMeals();
+  else if (kind === 'trans') recalcTranspo();
+  else recalcShopping();
+}
 window.recalc = recalc;
 window.recalcMeals = recalcMeals;
+window.recalcTranspo = recalcTranspo;
+window.recalcShopping = recalcShopping;
+window.toggleFreeOption = toggleFreeOption;
+window.addTrackerRow = addTrackerRow;
+window.hideTrackerRow = hideTrackerRow;
+window.restoreExpandableBudgetRows = restoreExpandableBudgetRows;
 recalc();
+setTimeout(restoreExpandableBudgetRows, 250);
+
+function setupRestaurantTabs(groupNames) {
+  const cards = groupNames.map(name => {
+    const span = Array.from(document.querySelectorAll('span')).find(el => el.textContent.includes(name));
+    return span ? span.closest('div[style*="border:1px solid var(--border)"]') : null;
+  }).filter(Boolean);
+  if (cards.length < 2) return;
+  const parent = cards[0].parentElement;
+  if (!parent || parent.querySelector(':scope > .restaurant-tabs')) return;
+  cards.forEach(card => card.classList.add('restaurant-option-card'));
+  const tabs = document.createElement('div');
+  tabs.className = 'restaurant-tabs';
+  cards.forEach((card, idx) => {
+    const title = groupNames[idx] || ('Option ' + (idx + 1));
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = 'Option ' + (idx + 1);
+    btn.title = title;
+    btn.addEventListener('click', () => {
+      cards.forEach((c, i) => c.classList.toggle('is-hidden', i !== idx));
+      tabs.querySelectorAll('button').forEach((b, i) => b.classList.toggle('active', i === idx));
+    });
+    tabs.appendChild(btn);
+  });
+  parent.insertBefore(tabs, cards[0]);
+  tabs.querySelector('button')?.click();
+}
+setupRestaurantTabs(['Mẩy Quán','Sapa Sky View','Sapa Center Cafe']);
+setupRestaurantTabs(['Gánh Hà Nội','Hanoi Skyline Lounge','Met Vietnamese']);
 
 /* ── LIGHTBOX ── */
 (function() {
@@ -2125,10 +2869,21 @@ let applyingRemote = false;
 
 const APP_USERS = {
   admin: { display: "Admin", password: "admin321", role: "admin" },
+  member1: { display: "Member1", password: "M1.2026", role: "member" },
+  member2: { display: "Member2", password: "M2.2026", role: "member" },
+  member3: { display: "Member3", password: "M3.2026", role: "member" },
+  member4: { display: "Member4", password: "M4.2026", role: "member" },
   guest: { display: "Guest", password: "g2026", role: "guest" }
 };
 const AUTH_KEY = "vietnamTripPlannerAuth.v1";
 let currentUser = null;
+let lastTripData = null;
+
+function currentBudgetKey() {
+  if (currentUser?.role === "admin") return "admin";
+  if (currentUser?.role === "member") return currentUser.username;
+  return null;
+}
 
 function normalizeUsername(value) {
   return String(value || "").trim().toLowerCase();
@@ -2137,31 +2892,47 @@ function normalizeUsername(value) {
 function isAdmin() {
   return currentUser?.role === "admin";
 }
+function canEditBudget() {
+  return currentUser?.role === "admin" || currentUser?.role === "member";
+}
 
 function applyAccessMode() {
   const user = currentUser || { display: "Guest", role: "guest" };
-  document.body.classList.toggle("admin-mode", user.role === "admin");
-  document.body.classList.toggle("guest-mode", user.role !== "admin");
+  const isAdminUser = user.role === "admin";
+  const isMemberUser = user.role === "member";
+  const canEditBudget = isAdminUser || isMemberUser;
+
+  document.body.classList.toggle("admin-mode", isAdminUser);
+  document.body.classList.toggle("member-mode", isMemberUser);
+  document.body.classList.toggle("guest-mode", user.role === "guest");
 
   const pill = document.getElementById("auth-pill");
   if (pill) {
-    pill.className = "auth-pill " + (user.role === "admin" ? "admin" : "guest");
-    pill.innerHTML = user.role === "admin"
-      ? '<i class="ti ti-shield-check"></i> Admin · editing enabled'
-      : '<i class="ti ti-user"></i> Guest · view only';
+    pill.className = "auth-pill " + (isAdminUser ? "admin" : isMemberUser ? "admin" : "guest");
+    pill.innerHTML = isAdminUser
+      ? '<i class="ti ti-shield-check"></i> Admin · full editing enabled'
+      : isMemberUser
+        ? '<i class="ti ti-wallet"></i> ' + user.display + ' · budget editing enabled'
+        : '<i class="ti ti-user"></i> Guest · view only';
   }
 
+  // Only Admin can upload/remove photos.
   document.querySelectorAll(".image-upload-input, .image-upload-btn, .image-remove-btn").forEach(el => {
-    el.disabled = user.role !== "admin";
+    el.disabled = !isAdminUser;
   });
 
+  // Admin can edit everything. Members can edit only Budget panel fields. Guest edits nothing.
   document.querySelectorAll("input, textarea, select").forEach(el => {
     if (el.classList.contains("login-input")) return;
     if (el.classList.contains("image-upload-input")) return;
-    el.disabled = user.role !== "admin";
+    const inBudget = !!el.closest("#panel-budget");
+    el.disabled = !(isAdminUser || (isMemberUser && inBudget));
+  });
+
+  document.querySelectorAll("#panel-budget button").forEach(el => {
+    el.disabled = !canEditBudget;
   });
 }
-
 function showLogin() {
   const overlay = document.getElementById("login-overlay");
   if (overlay) overlay.classList.add("show");
@@ -2178,11 +2949,17 @@ function signIn(username, password) {
   if (!user || password !== user.password) {
     return false;
   }
+
+  // Save the outgoing user's Budget panel before switching accounts.
+  // This keeps Member1, Member2, Member3, Member4, and Admin expense data separate.
+  try { if (canEditBudget()) saveAllNow(); } catch (_) {}
+
   currentUser = { username: key, display: user.display, role: user.role };
   localStorage.setItem(AUTH_KEY, JSON.stringify(currentUser));
   applyAccessMode();
+  applyBudgetForCurrentUser(lastTripData || getTripData());
   hideLogin();
-  setStatus(currentUser.role === "admin" ? "Admin editing enabled" : "Guest view only", currentUser.role === "admin" ? "ok" : "warn");
+  setStatus(currentUser.role === "admin" ? "Admin editing enabled — own budget dataset" : currentUser.role === "member" ? currentUser.display + " budget editing enabled — own dataset" : "Guest view only", currentUser.role === "guest" ? "warn" : "ok");
   return true;
 }
 
@@ -2231,18 +3008,102 @@ function hasFirebaseConfig() {
 // Firebase is the real persistent store for images.
 const imageCache = {};
 
-function getTripData() {
-  const data = { controls: {}, selectedCards: {}, savedAt: new Date().toISOString() };
-  document.querySelectorAll("input, textarea, select").forEach(el => {
+function getControlKey(el) {
+  return el.id || `name:${el.name}:${el.value || el.type}`;
+}
+
+function readControls(selector = null) {
+  const root = selector ? document.querySelector(selector) : document;
+  const controls = {};
+  if (!root) return controls;
+  root.querySelectorAll("input, textarea, select").forEach(el => {
+    if (el.classList.contains("login-input") || el.classList.contains("image-upload-input")) return;
     if (!el.id && !el.name) return;
-    const key = el.id || `name:${el.name}:${el.value || el.type}`;
-    data.controls[key] = {
+    const key = getControlKey(el);
+    controls[key] = {
       type: el.type,
       name: el.name || "",
       value: el.value,
       checked: !!el.checked
     };
   });
+  return controls;
+}
+
+function readGlobalControls() {
+  const controls = {};
+  document.querySelectorAll("input, textarea, select").forEach(el => {
+    if (el.closest("#panel-budget")) return;
+    if (el.classList.contains("login-input") || el.classList.contains("image-upload-input")) return;
+    if (!el.id && !el.name) return;
+    const key = getControlKey(el);
+    controls[key] = {
+      type: el.type,
+      name: el.name || "",
+      value: el.value,
+      checked: !!el.checked
+    };
+  });
+  return controls;
+}
+
+function applyControls(controls = {}, selector = null) {
+  Object.entries(controls || {}).forEach(([key, saved]) => {
+    let el = document.getElementById(key);
+    if (selector && el && !el.closest(selector)) return;
+    if (!el && key.startsWith("name:")) {
+      const [, name, value] = key.split(":");
+      const root = selector ? document.querySelector(selector) : document;
+      el = Array.from(root?.querySelectorAll(`[name="${CSS.escape(name)}"]`) || []).find(x => x.value === value);
+    }
+    if (!el) return;
+    if (el.type === "checkbox" || el.type === "radio") el.checked = !!saved.checked;
+    else el.value = saved.value ?? "";
+  });
+}
+
+function resetBudgetControls() {
+  const panel = document.querySelector("#panel-budget");
+  if (!panel) return;
+  panel.querySelectorAll("input, textarea, select").forEach(el => {
+    if (el.type === "checkbox" || el.type === "radio") el.checked = false;
+    else el.value = "";
+  });
+  panel.querySelectorAll(".free-detail-row").forEach(row => row.classList.add("is-hidden"));
+  panel.querySelectorAll(".free-option-btn").forEach(btn => btn.classList.remove("active"));
+  panel.querySelectorAll("tr[data-tracker]").forEach(row => {
+    row.classList.toggle("is-hidden", row.dataset.row !== "1");
+  });
+}
+
+function extractBudgetControlsFromLegacy(controls = {}) {
+  const budgetControls = {};
+  Object.keys(controls || {}).forEach(key => {
+    const el = document.getElementById(key);
+    if (el && el.closest("#panel-budget")) budgetControls[key] = controls[key];
+  });
+  return budgetControls;
+}
+
+function getTripData() {
+  const previous = lastTripData || {};
+  const data = {
+    controls: readGlobalControls(),
+    selectedCards: {},
+    budgetByUser: structuredClone(previous.budgetByUser || {}),
+    savedAt: new Date().toISOString()
+  };
+
+  const budgetKey = currentBudgetKey();
+  if (budgetKey) {
+    data.budgetByUser[budgetKey] = {
+      display: currentUser?.display || budgetKey,
+      role: currentUser?.role || "member",
+      updatedAt: new Date().toISOString(),
+      controls: readControls("#panel-budget")
+    };
+  }
+
   data.selectedCards.hanoiEvening = document.getElementById("opt2-card")?.classList.contains("selected") ? 2 : 1;
   data.selectedCards.oct8 = document.getElementById("oct8-opt2-card")?.classList.contains("selected") ? 2 : 1;
   // NOTE: uploadedImages intentionally excluded from getTripData.
@@ -2256,8 +3117,20 @@ function getTripData() {
 
 function firestoreSafeTripData(data) {
   // Images are saved separately in the images subcollection — never in the main doc.
-  // getTripData() already excludes images, so nothing extra to strip here.
-  return structuredClone(data || {});
+  const safe = { savedAt: data?.savedAt || new Date().toISOString() };
+  const budgetKey = currentBudgetKey();
+
+  // Admin edits itinerary/global data. Members only update their own budget dataset.
+  if (currentUser?.role === "admin") {
+    safe.controls = structuredClone(data?.controls || {});
+    safe.selectedCards = structuredClone(data?.selectedCards || {});
+    safe.activePanel = data?.activePanel || "panel-ov";
+  }
+
+  if (budgetKey && data?.budgetByUser?.[budgetKey]) {
+    safe.budgetByUser = { [budgetKey]: structuredClone(data.budgetByUser[budgetKey]) };
+  }
+  return safe;
 }
 
 async function loadFirestoreImages() {
@@ -2277,25 +3150,46 @@ async function loadFirestoreImages() {
   }
 }
 
-function applyTripData(data) {
-  if (!data || !data.controls) return;
-  applyingRemote = true;
-  Object.entries(data.controls).forEach(([key, saved]) => {
-    let el = document.getElementById(key);
-    if (!el && key.startsWith("name:")) {
-      const [, name, value] = key.split(":");
-      el = Array.from(document.querySelectorAll(`[name="${CSS.escape(name)}"]`)).find(x => x.value === value);
-    }
-    if (!el) return;
-    if (el.type === "checkbox" || el.type === "radio") el.checked = !!saved.checked;
-    else el.value = saved.value ?? "";
-  });
-  if (data.selectedCards?.hanoiEvening) window.selectOpt?.(data.selectedCards.hanoiEvening);
-  if (data.selectedCards?.oct8) window.selectOct8Opt?.(data.selectedCards.oct8);
-  // Images are NOT stored in localStorage — they come from Firebase only.
-  // imageCache is used for within-session persistence (tab switches, etc).
+function applyBudgetForCurrentUser(data = lastTripData) {
+  const panel = document.querySelector("#panel-budget");
+  if (!panel) return;
+
+  const budgetKey = currentBudgetKey();
+  let budgetControls = budgetKey ? data?.budgetByUser?.[budgetKey]?.controls : null;
+
+  // One-time compatibility: if this is an older file/save with shared budget controls,
+  // let Admin inherit those as Admin's own dataset. Members do not inherit shared data.
+  if (!budgetControls && budgetKey === "admin" && data?.controls) {
+    const legacy = extractBudgetControlsFromLegacy(data.controls);
+    if (Object.keys(legacy).length) budgetControls = legacy;
+  }
+
+  resetBudgetControls();
+  if (budgetControls) applyControls(budgetControls, "#panel-budget");
+
   window.recalc?.();
   window.recalcMeals?.();
+  window.recalcTranspo?.();
+  window.recalcShopping?.();
+  window.restoreExpandableBudgetRows?.();
+}
+
+function applyTripData(data) {
+  if (!data) return;
+  lastTripData = structuredClone(data || {});
+  applyingRemote = true;
+
+  // Apply shared non-budget itinerary controls only.
+  applyControls(data.controls || {}, null);
+
+  if (data.selectedCards?.hanoiEvening) window.selectOpt?.(data.selectedCards.hanoiEvening);
+  if (data.selectedCards?.oct8) window.selectOct8Opt?.(data.selectedCards.oct8);
+
+  // Apply only the current signed-in user's Budget dataset.
+  applyBudgetForCurrentUser(data);
+
+  // Images are NOT stored in localStorage — they come from Firebase only.
+  // imageCache is used for within-session persistence (tab switches, etc).
   applyingRemote = false;
 }
 
@@ -2537,7 +3431,7 @@ function installImageUploaders() {
 }
 
 async function saveAllNow() {
-  if (!isAdmin()) return;
+  if (!canEditBudget()) return;
   const data = saveLocal();
   if (!firebaseReady || !db) return;
   await setDoc(doc(db, ...TRIP_DOC_PATH), { ...firestoreSafeTripData(data), updatedAt: serverTimestamp() }, { merge: true });
@@ -2545,6 +3439,7 @@ async function saveAllNow() {
 
 function saveLocal() {
   const data = getTripData();
+  lastTripData = structuredClone(data || {});
   try {
     localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
   } catch (err) {
@@ -2558,7 +3453,7 @@ function saveLocal() {
 
 let saveTimer = null;
 async function saveAll() {
-  if (applyingRemote || !isAdmin()) return;
+  if (applyingRemote || !canEditBudget()) return;
   const data = saveLocal();
   if (!firebaseReady || !db) {
     setStatus("Saved on this device", "warn");
