@@ -852,9 +852,288 @@ body.guest-mode select { pointer-events: none; opacity: .7; }
 body.guest-mode .opt-pick { cursor: default; }
 body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 
+/* ── LIGHTBOX ── */
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.92);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  cursor: zoom-out;
+}
+.lightbox-overlay.open { display: flex; }
+.lightbox-inner {
+  position: relative;
+  max-width: min(92vw, 960px);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.lightbox-img {
+  max-width: 100%;
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+  display: block;
+  cursor: default;
+}
+.lightbox-caption {
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+  text-align: center;
+  line-height: 1.4;
+  max-width: 480px;
+}
+.lightbox-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  line-height: 1;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.3); }
+/* Make real uploaded/loaded photos tappable — only when image is present */
+.image-upload-slot.has-image img,
+.card-photos > img,
+.opt-pick img,
+.wfall-opt img,
+.opt-card img {
+  cursor: zoom-in;
+}
+
+
+/* OVERVIEW TIMELINE GRID — custom three-part day layout */
+.overview-shell {
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 18px;
+  padding: 18px 16px 16px;
+  box-shadow: var(--shadow);
+}
+.overview-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+.overview-kicker {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--green-text);
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.overview-mini-stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  color: var(--text2);
+  font-size: 11px;
+}
+.overview-mini-stats span {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 9px;
+  white-space: nowrap;
+}
+.overview-mini-stats b { color: var(--text); }
+.overview-time-head,
+.overview-rhythm-grid {
+  display: grid;
+  grid-template-columns: 74px repeat(3, minmax(0, 1fr));
+  gap: 4px;
+}
+.overview-time-head {
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 0 0 2px;
+}
+.overview-time-head div:not(:first-child) {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 12px;
+  color: var(--text2);
+  font-weight: 600;
+}
+.overview-time-head i { color: var(--orange); margin-right: 5px; font-size: 15px; vertical-align: -2px; }
+.overview-time-head div:last-child i { color: var(--text); }
+.overview-time-head span {
+  color: var(--text2);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.overview-rhythm-grid { align-items: stretch; }
+.ov-date {
+  padding: 10px 6px 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.1;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.ov-date b { font-size: 14px; color: var(--text); }
+.ov-date span { font-size: 12px; color: var(--text2); margin-top: 3px; }
+.ov-date.divider { border-top: 1px solid rgba(0,0,0,0.08); }
+.ov-block {
+  min-height: 78px;
+  border-radius: 8px;
+  padding: 12px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.62);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
+  margin-bottom: 4px;
+}
+.ov-block.divider { margin-top: 6px; }
+.ov-block-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.ov-block-title i {
+  font-size: 18px;
+  flex-shrink: 0;
+  opacity: .84;
+}
+.ov-block p {
+  font-size: 13px;
+  line-height: 1.35;
+  margin-top: 5px;
+  color: var(--text2);
+}
+.ov-block.activity { background: #E0F3EC; }
+.ov-block.activity .ov-block-title, .ov-block.activity p { color: #0F6B4F; }
+.ov-block.tour { background: #EAF2FF; }
+.ov-block.tour .ov-block-title, .ov-block.tour p { color: #143F86; }
+.ov-block.free { background: #FCEEF4; }
+.ov-block.free .ov-block-title, .ov-block.free p { color: #8C1F46; }
+.ov-block.meal { background: #FEF0E0; }
+.ov-block.meal .ov-block-title, .ov-block.meal p { color: #743600; }
+.ov-block.travel { background: #E9E6DE; }
+.ov-block.travel .ov-block-title, .ov-block.travel p { color: #3A3832; }
+.ov-block.span-2 { grid-column: span 2; }
+.ov-block.span-3 { grid-column: span 3; }
+.overview-legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 12px;
+  color: var(--text2);
+  font-size: 12px;
+}
+.overview-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.overview-legend i {
+  width: 13px;
+  height: 13px;
+  border-radius: 4px;
+  display: inline-block;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+.overview-legend .activity { background: #CDEEE1; }
+.overview-legend .tour { background: #D8E8FF; }
+.overview-legend .free { background: #FADDE9; }
+.overview-legend .meal { background: #FDE3C2; }
+.overview-legend .travel { background: #DEDAD1; }
+@media (max-width: 700px) {
+  .overview-shell { padding: 14px 12px; }
+  .overview-top { align-items: flex-start; flex-direction: column; gap: 10px; }
+  .overview-mini-stats { justify-content: flex-start; }
+  .overview-time-head,
+  .overview-rhythm-grid { grid-template-columns: 56px repeat(3, minmax(140px, 1fr)); }
+  .overview-shell { overflow-x: auto; }
+  .overview-time-head,
+  .overview-rhythm-grid { min-width: 650px; }
+  .overview-time-head div:not(:first-child) { font-size: 11px; }
+  .ov-block-title { font-size: 14px; }
+  .ov-block p { font-size: 12px; }
+}
+
+
+
+/* BUDGET ALIGNMENT FIX — keep Budget/Actual columns uniform across every day */
+#panel-budget .btable {
+  table-layout: fixed;
+}
+#panel-budget .activity-budget-table th:nth-child(3),
+#panel-budget .activity-budget-table td:nth-child(3),
+#panel-budget .activity-budget-table th:nth-child(4),
+#panel-budget .activity-budget-table td:nth-child(4) {
+  width: 18%;
+}
+#panel-budget .activity-budget-table th:nth-child(2),
+#panel-budget .activity-budget-table td:nth-child(2) {
+  width: 9%;
+}
+#panel-budget .activity-budget-table th:nth-child(1),
+#panel-budget .activity-budget-table td:nth-child(1) {
+  width: 55%;
+}
+#panel-budget .meal-budget-table th:nth-child(1),
+#panel-budget .meal-budget-table td:nth-child(1) { width: 58%; }
+#panel-budget .meal-budget-table th:nth-child(2),
+#panel-budget .meal-budget-table td:nth-child(2),
+#panel-budget .meal-budget-table th:nth-child(3),
+#panel-budget .meal-budget-table td:nth-child(3) { width: 21%; }
+#panel-budget .day-total-row td {
+  vertical-align: middle;
+}
+#panel-budget .day-total-row td[id$="-b"],
+#panel-budget .day-total-row td[id$="-a"],
+#panel-budget .day-total-row td.r {
+  white-space: nowrap;
+}
+#panel-budget .actual-input {
+  width: min(100%, 90px);
+}
+@media (max-width: 520px) {
+  #panel-budget .activity-budget-table col.item { width: 48% !important; }
+  #panel-budget .activity-budget-table col.check { width: 10% !important; }
+  #panel-budget .activity-budget-table col.budget,
+  #panel-budget .activity-budget-table col.actual { width: 21% !important; }
+  #panel-budget .btable th, #panel-budget .btable td { padding-left: 7px; padding-right: 7px; }
+  #panel-budget .actual-input { width: 72px; }
+}
 </style>
 </head>
 <body>
+<!-- LIGHTBOX -->
+<div aria-label="Image viewer" aria-modal="true" class="lightbox-overlay" id="lightbox" role="dialog">
+<div class="lightbox-inner" id="lightbox-inner">
+<button aria-label="Close" class="lightbox-close" id="lightbox-close">✕</button>
+<img alt="" class="lightbox-img" id="lightbox-img" src=""/>
+<div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+</div>
 <div class="app-header">
 <div class="app-title"><i class="ti ti-map-pin"></i> Vietnam Trip Planner</div>
 <div class="app-sub">October 4–11  ·  Cebu → Hanoi → Sapa → Hanoi</div>
@@ -897,85 +1176,60 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <div class="main">
 <!-- ============ OVERVIEW ============ -->
 <div class="panel active" id="panel-ov">
-<div class="day-hdr"><div><div class="dname">Trip at a Glance</div><div class="dsub">October 4–11 · 4 people · Cebu → Hanoi → Sapa → Ha Long Bay → Hanoi → Cebu</div></div></div>
-<div class="ov-stats">
-<div class="ov-stat"><div class="ov-stat-val">8</div><div class="ov-stat-lbl">Days</div></div>
-<div class="ov-stat"><div class="ov-stat-val">4</div><div class="ov-stat-lbl">Travellers</div></div>
-<div class="ov-stat"><div class="ov-stat-val">3</div><div class="ov-stat-lbl">Destinations</div></div>
-<div class="ov-stat"><div class="ov-stat-val" id="ov-est">₱15k+</div><div class="ov-stat-lbl">Est. / person</div></div>
+<div class="overview-shell">
+<div class="overview-top">
+<div>
+<div class="overview-kicker">Trip rhythm</div>
+<div class="dname">Trip at a Glance</div>
+<div class="dsub">October 4–11 · 4 people · Cebu → Hanoi → Sapa → Ha Long Bay → Hanoi → Cebu</div>
 </div>
-<div class="ov-days">
-<div class="ov-day-card">
-<div class="ov-day-accent" style="background:var(--gray)"></div>
-<div class="ov-day-left"><div class="ov-day-date">Oct</div><div class="ov-day-num">4</div><div class="ov-day-dow">Sun</div></div>
-<div class="ov-day-body">
-<div class="ov-day-title">✈️ Departure Day</div>
-<div class="ov-day-sub">Pre-flight prep → fly Cebu → Hanoi (1:30 PM) → Lotte Mall or Airport free time → 10:30 PM sleeper bus to Sapa</div>
-<div class="ov-day-segs"><span class="ov-seg ov-seg-travel">Flight</span><span class="ov-seg ov-seg-free">Free time</span><span class="ov-seg ov-seg-travel">Sleeper bus</span></div>
+<div class="overview-mini-stats">
+<span><b>8</b> days</span>
+<span><b>3</b> destinations</span>
+<span><b id="ov-est">₱15k+</b> est./person</span>
 </div>
 </div>
-<div class="ov-day-card">
-<div class="ov-day-accent" style="background:var(--green)"></div>
-<div class="ov-day-left"><div class="ov-day-date">Oct</div><div class="ov-day-num">5</div><div class="ov-day-dow">Mon</div></div>
-<div class="ov-day-body">
-<div class="ov-day-title">🏔️ Welcome to Sapa</div>
-<div class="ov-day-sub">6 AM arrival → breakfast → Cat Cat Village + Rainbow Slide + lunch/snack → check-in 2 PM → rest or explore → dinner</div>
-<div class="ov-day-segs"><span class="ov-seg ov-seg-act">Cat Cat Village</span><span class="ov-seg ov-seg-free">Afternoon free</span><span class="ov-seg ov-seg-food">Dinner</span></div>
+<div class="overview-time-head">
+<div></div>
+<div><i class="ti ti-sun"></i> Morning <span>· 6 AM–12 PM</span></div>
+<div><i class="ti ti-sun-high"></i> Afternoon <span>· 12–5 PM</span></div>
+<div><i class="ti ti-moon"></i> Evening <span>· 5 PM onwards</span></div>
 </div>
+<div class="overview-rhythm-grid">
+<div class="ov-date"><b>Oct 4</b><span>Sun</span></div>
+<div class="ov-block travel"><div class="ov-block-title"><i class="ti ti-plane-departure"></i> Pre-flight prep</div></div>
+<div class="ov-block travel"><div class="ov-block-title"><i class="ti ti-plane"></i> Fly to Hanoi</div><p>Depart 1:30 PM · 3 hr flight</p></div>
+<div class="ov-block travel"><div class="ov-block-title"><i class="ti ti-bus"></i> Arrive + Lotte Mall</div><p>10:30 PM sleeper bus to Sapa</p></div>
+<div class="ov-date"><b>Oct 5</b><span>Mon</span></div>
+<div class="ov-block activity"><div class="ov-block-title"><i class="ti ti-map-pin"></i> Arrive Sapa · Cat Cat Village</div><p>6 AM arrival · breakfast · Cat Cat + Rainbow Slide</p></div>
+<div class="ov-block free"><div class="ov-block-title"><i class="ti ti-cup"></i> Free time</div><p>Check-in 2 PM · rest or explore</p></div>
+<div class="ov-block meal"><div class="ov-block-title"><i class="ti ti-tools-kitchen-2"></i> Dinner</div><p>Sapa Plaza/Park or order in</p></div>
+<div class="ov-date"><b>Oct 6</b><span>Tue</span></div>
+<div class="ov-block activity"><div class="ov-block-title"><i class="ti ti-mountain"></i> Fansipan Mountain</div><p>Monorail · cable car · summit · Van Sam buffet</p></div>
+<div class="ov-block free"><div class="ov-block-title"><i class="ti ti-cup"></i> Free time</div><p>Coaster · Moana Sapa · café · rest</p></div>
+<div class="ov-block meal"><div class="ov-block-title"><i class="ti ti-users-group"></i> Group dinner</div><p>Eat out or order in · group vote</p></div>
+<div class="ov-date"><b>Oct 7</b><span>Wed</span></div>
+<div class="ov-block activity"><div class="ov-block-title"><i class="ti ti-bridge"></i> Glass Bridge + Games</div><p>Death Swing · Zipline · Rope Bike · Waterfalls</p></div>
+<div class="ov-block free"><div class="ov-block-title"><i class="ti ti-cup"></i> Free time</div><p>Coaster · Moana Sapa · rest · shop</p></div>
+<div class="ov-block meal"><div class="ov-block-title"><i class="ti ti-shopping-bag"></i> Last Sapa dinner + Night Market</div></div>
+<div class="ov-date divider"><b>Oct 8</b><span>Thu</span></div>
+<div class="ov-block travel span-2 divider"><div class="ov-block-title"><i class="ti ti-bus"></i> Sleeper bus → Hanoi</div><p>Check-out 8:30 AM · 6–7 hrs travel · check-in 4 PM</p></div>
+<div class="ov-block free divider"><div class="ov-block-title"><i class="ti ti-train"></i> Dine in or Train Street</div><p>Optional 7:30 PM train passes</p></div>
+<div class="ov-date divider"><b>Oct 9</b><span>Fri</span></div>
+<div class="ov-block tour span-3 divider"><div class="ov-block-title"><i class="ti ti-flag"></i> Full Day Tour · Bai Dinh Pagoda → Trang An boat → Mua Cave</div><p>7 AM pickup · lunch included · 7–8 PM drop-off</p></div>
+<div class="ov-date"><b>Oct 10</b><span>Sat</span></div>
+<div class="ov-block tour span-3"><div class="ov-block-title"><i class="ti ti-ship"></i> Full Day Cruise · Ha Long Bay — Hercules Grand</div><p>7:30 AM pickup · Pearl Farm · Sung Sot Cave · Luon Cave kayak · Ti Top Island · 8:30–9 PM arrive Hanoi</p></div>
+<div class="ov-date divider"><b>Oct 11</b><span>Sun</span></div>
+<div class="ov-block free divider"><div class="ov-block-title"><i class="ti ti-sun"></i> Free morning</div><p>Last Hanoi wander · check-out 11 AM</p></div>
+<div class="ov-block meal divider"><div class="ov-block-title"><i class="ti ti-tools-kitchen-2"></i> Last group lunch</div><p>Fancy restaurant · head to airport 1 PM</p></div>
+<div class="ov-block travel divider"><div class="ov-block-title"><i class="ti ti-plane-arrival"></i> Fly home · back in Cebu 10 PM</div></div>
 </div>
-<div class="ov-day-card">
-<div class="ov-day-accent" style="background:var(--green)"></div>
-<div class="ov-day-left"><div class="ov-day-date">Oct</div><div class="ov-day-num">6</div><div class="ov-day-dow">Tue</div></div>
-<div class="ov-day-body">
-<div class="ov-day-title">⛰️ Fansipan Mountain Day</div>
-<div class="ov-day-sub">Sun Plaza → monorail + cable car → Fansipan Peak 3,143m → Van Sam buffet lunch → free afternoon (coaster/café/rest) → group dinner</div>
-<div class="ov-day-segs"><span class="ov-seg ov-seg-act">Fansipan Summit</span><span class="ov-seg ov-seg-food">Van Sam buffet</span><span class="ov-seg ov-seg-free">Free afternoon</span></div>
-</div>
-</div>
-<div class="ov-day-card">
-<div class="ov-day-accent" style="background:var(--green)"></div>
-<div class="ov-day-left"><div class="ov-day-date">Oct</div><div class="ov-day-num">7</div><div class="ov-day-dow">Wed</div></div>
-<div class="ov-day-body">
-<div class="ov-day-title">🌉 Glass Bridge + Last Day in Sapa</div>
-<div class="ov-day-sub">Glass Bridge + games (Death Swing / Zipline / Rope Bike / Bridge Through Clouds) → Love or Silver Waterfall → free afternoon → last group dinner + Night Market shopping</div>
-<div class="ov-day-segs"><span class="ov-seg ov-seg-act">Glass Bridge</span><span class="ov-seg ov-seg-act">Waterfall</span><span class="ov-seg ov-seg-free">Free / Shop</span><span class="ov-seg ov-seg-food">Last Sapa dinner</span></div>
-</div>
-</div>
-<div class="ov-day-card">
-<div class="ov-day-accent" style="background:var(--gray)"></div>
-<div class="ov-day-left"><div class="ov-day-date">Oct</div><div class="ov-day-num">8</div><div class="ov-day-dow">Thu</div></div>
-<div class="ov-day-body">
-<div class="ov-day-title">🚌 Back to Hanoi</div>
-<div class="ov-day-sub">Check-out → sleeper bus 8:30 AM (6–7 hrs) → arrive Hanoi Old Quarter ~3 PM → check-in → recharge → optional Train Street dinner or dine in</div>
-<div class="ov-day-segs"><span class="ov-seg ov-seg-travel">Sleeper bus</span><span class="ov-seg ov-seg-travel">Arrive Hanoi</span><span class="ov-seg ov-seg-free">Rest in / Train St.</span></div>
-</div>
-</div>
-<div class="ov-day-card">
-<div class="ov-day-accent" style="background:var(--blue)"></div>
-<div class="ov-day-left"><div class="ov-day-date">Oct</div><div class="ov-day-num">9</div><div class="ov-day-dow">Fri</div></div>
-<div class="ov-day-body">
-<div class="ov-day-title">🏯 Bai Dinh · Trang An · Mua Cave</div>
-<div class="ov-day-sub">Full day joiner tour · 7 AM pickup → Bai Dinh Pagoda (SE Asia's largest Buddhist complex) → Trang An boat ride (UNESCO) → Mua Cave 500 steps → 7–8 PM drop-off · Lunch included</div>
-<div class="ov-day-segs"><span class="ov-seg ov-seg-tour">Full Day Tour</span><span class="ov-seg ov-seg-food">Lunch included</span></div>
-</div>
-</div>
-<div class="ov-day-card">
-<div class="ov-day-accent" style="background:var(--blue)"></div>
-<div class="ov-day-left"><div class="ov-day-date">Oct</div><div class="ov-day-num">10</div><div class="ov-day-dow">Sat</div></div>
-<div class="ov-day-body">
-<div class="ov-day-title">⛵ Ha Long Bay — Hercules Grand Cruise</div>
-<div class="ov-day-sub">Full day joiner tour · 7:30 AM pickup → Pearl Farm → board cruise 11:30 AM → buffet lunch → Sung Sot Cave → Luon Cave (kayak) → Ti Top Island → afternoon tea → 8:30–9 PM arrive Hanoi</div>
-<div class="ov-day-segs"><span class="ov-seg ov-seg-tour">Full Day Cruise</span><span class="ov-seg ov-seg-food">Lunch + tea included</span></div>
-</div>
-</div>
-<div class="ov-day-card">
-<div class="ov-day-accent" style="background:var(--orange)"></div>
-<div class="ov-day-left"><div class="ov-day-date">Oct</div><div class="ov-day-num">11</div><div class="ov-day-dow">Sun</div></div>
-<div class="ov-day-body">
-<div class="ov-day-title">🏠 Last Morning + Fly Home</div>
-<div class="ov-day-sub">Free morning — explore / enjoy Hanoi → checkout 11 AM → last group lunch (fancy!) → 1 PM head to airport → 2 PM arrive Noi Bai → 5 PM depart → 10 PM arrive Cebu</div>
-<div class="ov-day-segs"><span class="ov-seg ov-seg-free">Free morning</span><span class="ov-seg ov-seg-food">Last lunch</span><span class="ov-seg ov-seg-travel">Fly home</span><span class="ov-seg ov-seg-home">Back in Cebu 🏠</span></div>
-</div>
+<div class="overview-legend">
+<span><i class="activity"></i>Activity</span>
+<span><i class="tour"></i>Full day tour</span>
+<span><i class="free"></i>Free time</span>
+<span><i class="meal"></i>Meal</span>
+<span><i class="travel"></i>Travel</span>
 </div>
 </div>
 </div>
@@ -994,42 +1248,11 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <div class="tl">
 <div class="tl-row"><div class="tl-left"><div class="tl-time">1:30 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-plane-departure"></i>Depart Cebu</div><span class="ctag tag-tr">flight</span></div><div class="cdesc">Departs Mactan–Cebu International Airport heading to Noi Bai, Hanoi.</div></div></div></div></div>
 <div class="tl-row"><div class="tl-left"><div class="tl-time">1:30–4:30 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-plane"></i>In-flight (~3 hrs)</div><span class="ctag tag-tr">3 hrs</span></div><div class="cdesc">Rest up — you'll need energy for the sleeper bus tonight!</div></div></div></div></div>
-<div class="tl-row"><div class="tl-left"><div class="tl-time">4:30 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-building-airport"></i>Arrive Noi Bai Airport</div><span class="ctag tag-tr">arrive</span></div><div class="cdesc">Clear immigration and collect luggage. Expected done by ~5:30 PM. Two bus pickup options available — see below.</div></div></div></div></div>
-<div class="tl-row">
-<div class="tl-left"><div class="tl-time">5:30–10 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--pink)"></div><div class="tl-line"></div></div></div>
-<div class="tl-body">
-<div class="card"><div class="cacc" style="background:var(--pink)"></div><div class="cbody">
-<div class="ctop"><div class="ctitle"><i class="ti ti-sun"></i>4.5 hrs free in Hanoi — pick your evening</div><span class="ctag tag-ft">group vote</span></div>
-<div class="cdesc">Same bus fare either way — just pick the matching pickup point below.</div>
-<div class="opt-chooser">
-<div class="opt-pick selected" id="opt1-card" onclick="selectOpt(1)">
-<div class="opt-pick-label" style="background:var(--gray-bg);color:var(--gray)">Option 1 — chill</div>
-<div class="opt-pick-title"><i class="ti ti-building-airport"></i> Stay at airport</div>
-<div style="font-size:11px;color:var(--text3);margin-bottom:6px">Pickup: <b style="color:var(--text)">Noi Bai Airport</b></div>
-<div class="hanoi-tl">
-<div class="ht-row"><div class="ht-left"><div class="ht-dot" style="background:var(--orange)"></div><div class="ht-line"></div></div><div class="ht-time">5:30 PM</div><div class="ht-body"><div class="ht-title">Dinner at airport</div><div class="ht-desc">Food court or stands at Noi Bai</div></div></div>
-<div class="ht-row"><div class="ht-left"><div class="ht-dot" style="background:var(--gray)"></div><div class="ht-line"></div></div><div class="ht-time">6–10 PM</div><div class="ht-body"><div class="ht-title">Wait at airport</div><div class="ht-desc">Rest, charge devices, browse duty-free</div></div></div>
-<div class="ht-row"><div class="ht-left"><div class="ht-dot" style="background:var(--green)"></div></div><div class="ht-time">10:00 PM</div><div class="ht-body"><div class="ht-title">Head to airport pickup point</div><div class="ht-desc">Walk or short ride within terminal</div></div></div>
-</div>
-<div class="image-upload-slot" data-alt="Noi Bai Airport" data-image-key="photo-1" data-img-class="opt-pick-photo"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Noi Bai Airport</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
-</div>
-<div class="opt-pick" id="opt2-card" onclick="selectOpt(2)">
-<div class="opt-pick-label" style="background:var(--blue-bg);color:var(--blue-text)">Option 2 — explore</div>
-<div class="opt-pick-title"><i class="ti ti-building-store"></i> Lotte Mall West Lake</div>
-<div style="font-size:11px;color:var(--text3);margin-bottom:6px">Pickup: <b style="color:var(--text)">Old Quarter</b></div>
-<div class="hanoi-tl">
-<div class="ht-row"><div class="ht-left"><div class="ht-dot" style="background:var(--gray)"></div><div class="ht-line"></div></div><div class="ht-time">5:30 PM</div><div class="ht-body"><div class="ht-title">Grab from airport</div><div class="ht-desc">~45 min ride to Lotte Mall (rush hour)</div></div></div>
-<div class="ht-row"><div class="ht-left"><div class="ht-dot" style="background:var(--orange)"></div><div class="ht-line"></div></div><div class="ht-time">6:15 PM</div><div class="ht-body"><div class="ht-title">Arrive Lotte Mall</div><div class="ht-desc">Dinner · snack run · quick mall walk</div></div></div>
-<div class="ht-row"><div class="ht-left"><div class="ht-dot" style="background:var(--gray)"></div><div class="ht-line"></div></div><div class="ht-time">9:15 PM</div><div class="ht-body"><div class="ht-title">Grab to Old Quarter pickup</div><div class="ht-desc">HK Busline · 70 Nguyen Huu Huan · ~20–30 min</div></div></div>
-<div class="ht-row"><div class="ht-left"><div class="ht-dot" style="background:var(--green)"></div></div><div class="ht-time">Before 10 PM</div><div class="ht-body"><div class="ht-title">Arrive Old Quarter pickup point</div><div class="ht-desc">Arrive before 10 PM for 10:30 PM bus departure</div></div></div>
-</div>
-<div class="image-upload-slot" data-alt="Lotte Center Hanoi" data-image-key="photo-2" data-img-class="opt-pick-photo"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Lotte Center Hanoi</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
-</div>
-</div>
-</div></div>
-</div>
-</div>
-<div class="tl-row"><div class="tl-left"><div class="tl-time">10:30 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-bus"></i>Board sleeper bus → Sapa</div><span class="ctag tag-tr">departs</span></div><div class="cdesc">Opt 1 boards at Noi Bai Airport · Opt 2 boards at HK Busline Old Quarter. Same bus, same ₱1,150 fare. Includes Klook lounge access on arrival in Sapa.</div><div class="pills"><span class="cpill">₱1,150 / head</span><span class="gpill"><i class="ti ti-star"></i> Klook lounge included</span></div><div class="card-photos photos-2" style="margin-top:10px"><div class="image-upload-slot" data-alt="Sleeper bus cabin" data-image-key="sleeper-bus-1"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Sleeper bus cabin</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div><div class="image-upload-slot" data-alt="Sleeper bus seats" data-image-key="sleeper-bus-2"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Sleeper bus seats</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div></div></div></div></div>
+<div class="tl-row"><div class="tl-left"><div class="tl-time">4:30 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-building-airport"></i>Arrive Noi Bai Airport</div><span class="ctag tag-tr">arrive</span></div><div class="cdesc">Clear immigration and collect luggage. Expected done by ~5:30 PM.</div></div></div></div></div>
+<div class="tl-row"><div class="tl-left"><div class="tl-time">5:30 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-car"></i>Airport → Lotte Mall West Lake</div><span class="ctag tag-tr">~45 min</span></div><div class="cdesc">Grab car from Noi Bai to Lotte Mall. Allow 45 mins factoring in late afternoon traffic.</div><div class="pills"><span class="tpill"><i class="ti ti-clock"></i> Rush hour — book Grab in advance</span></div></div></div></div></div>
+<div class="tl-row"><div class="tl-left"><div class="tl-time">6:15–9:00 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--orange)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-building-store"></i>Lotte Mall West Lake — 2.5–3 hrs</div><span class="ctag tag-ml">dinner + shopping</span></div><div class="cdesc">Estimated arrival at Lotte Mall. Dinner, snacks, and last-minute shopping before heading to Sapa. Stock up on anything you need for the mountains!</div><div class="pills"><span class="gpill"><i class="ti ti-tools-kitchen-2"></i> Dinner here</span><span class="tpill"><i class="ti ti-shopping-bag"></i> Last-min Sapa shopping</span></div><div class="card-photos photos-2" style="margin-top:10px"><div class="image-upload-slot" data-alt="Lotte Mall West Lake" data-image-key="lotte-mall-1"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Lotte Mall exterior</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div><div class="image-upload-slot" data-alt="Lotte Mall interior" data-image-key="lotte-mall-2"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Lotte Mall interior</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div></div></div></div></div>
+<div class="tl-row"><div class="tl-left"><div class="tl-time">9:15 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-car"></i>Depart Lotte Mall → Old Quarter pickup point</div><span class="ctag tag-tr">20–30 min</span></div><div class="cdesc">Head to the HK Busline pickup point in the Old Quarter. Must arrive before 10:30 PM.</div><div class="pills"><span class="cpill"><i class="ti ti-map-pin"></i> 70 Nguyễn Hữu Huân, Hoàn Kiếm, Hà Nội</span></div></div></div></div></div>
+<div class="tl-row"><div class="tl-left"><div class="tl-time">10:30 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-bus"></i>Board sleeper bus → Sapa</div><span class="ctag tag-tr">departs</span></div><div class="cdesc">Boards at HK Busline Old Quarter. Includes Klook lounge access on arrival in Sapa.</div><div class="pills"><span class="cpill">₱1,150 / head</span><span class="gpill"><i class="ti ti-star"></i> Klook lounge included</span></div><div class="card-photos photos-2" style="margin-top:10px"><div class="image-upload-slot" data-alt="Sleeper bus cabin" data-image-key="sleeper-bus-1"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Sleeper bus cabin</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div><div class="image-upload-slot" data-alt="Sleeper bus seats" data-image-key="sleeper-bus-2"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Sleeper bus seats</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div></div></div></div></div>
 <div class="tl-row"><div class="tl-left"><div class="tl-time">10:30 PM–6 AM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-moon"></i>Overnight travel to Sapa</div><span class="ctag tag-tr">6–7 hrs</span></div><div class="cdesc">Sleep on the bus. Arrive Sapa ~6 AM on October 5.</div></div></div></div></div>
 </div>
 </div>
@@ -1075,7 +1298,7 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <div class="leg"><div class="ldot" style="background:var(--pink)"></div>Free time</div>
 </div>
 <div class="tl">
-<div class="tl-row"><div class="tl-left"><div class="tl-time">7:00 AM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-run"></i>Arrive Sun Plaza — beat the queues!</div><span class="ctag tag-tr">depart early</span></div><div class="cdesc">Get there early before the crowds arrive. Monorail starts at 7:45 AM.</div></div></div></div></div>
+<div class="tl-row"><div class="tl-left"><div class="tl-time">7:00 AM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-run"></i>Arrive Sun Plaza — beat the queues!</div><span class="ctag tag-tr">depart early</span></div><div class="cdesc">Get there early before the crowds arrive. Monorail starts at 7:45 AM.</div><div class="card-photos photos-2" style="margin-top:10px"><div class="image-upload-slot" data-alt="Sun Plaza Sapa" data-image-key="oct6-7am-1"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Sun Plaza exterior</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div><div class="image-upload-slot" data-alt="Sun Plaza Sapa entrance" data-image-key="oct6-7am-2"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Sun Plaza entrance</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div></div></div></div></div>
 <div class="tl-row"><div class="tl-left"><div class="tl-time">7:45 AM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--green)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-train"></i>First monorail → cable car</div><span class="ctag tag-ac">~30 min</span></div><div class="cdesc">Monorail to cable car station (5–6 min) → cable car to Fansipan Station (20 min).</div><div class="pills"><span class="cpill">₱2,900 / head — monorail + cable car roundtrip + Van Sam Restaurant</span></div>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:10px">
 <div class="opt-card"><div class="opt-card-title"><i class="ti ti-train"></i> Monorail</div><div class="opt-card-sub">→ cable car · 5–6 min</div><div class="image-upload-slot" data-alt="Muong Hoa Monorail" data-image-key="photo-6" style="width:100%;height:70px;object-fit:cover;border-radius:6px;margin-top:6px"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Muong Hoa Monorail</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div>
@@ -1104,7 +1327,7 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <div class="opt-card"><div class="opt-card-title"><i class="ti ti-rollercoaster"></i> Alpine Coaster</div><div class="opt-card-sub">₱590 1st · ₱295 2nd · 12–15 min by Grab · free shuttle from Convention Center</div><div class="image-upload-slot" data-alt="Alpine Coaster Sapa" data-image-key="photo-15" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-top:6px"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Alpine Coaster Sapa</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div>
 <div class="opt-card"><div class="opt-card-title"><i class="ti ti-camera"></i> Moana Sapa</div><div class="opt-card-sub">₱207 incl. 1 free drink · 12–15 min · photo park with mountain views</div><div class="image-upload-slot" data-alt="Moana Sapa" data-image-key="photo-16" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-top:6px"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Moana Sapa</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div>
 <div class="opt-card"><div class="opt-card-title"><i class="ti ti-coffee"></i> Viettrekking Café</div><div class="opt-card-sub">No entrance fee · budget for drinks · cozy mountain café vibes</div><div class="image-upload-slot" data-alt="Sapa mountain café" data-image-key="photo-17" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-top:6px"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Sapa mountain café</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div>
-<div class="opt-card"><div class="opt-card-title"><i class="ti ti-bed"></i> Rest</div><div class="opt-card-sub">Fully valid after Fansipan — nap and recover!</div></div>
+<div class="opt-card"><div class="opt-card-title"><i class="ti ti-bed"></i> Rest</div><div class="opt-card-sub">Fully valid after Fansipan — nap and recover!</div><div style="margin-top:8px"><div class="image-upload-slot" data-alt="Hotel rest Sapa" data-image-key="oct6-rest-1"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Rest / hotel room</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div></div>
 </div>
 </div></div></div></div>
 <div class="tl-row" style="display:none"><div class="tl-left"><div class="tl-time">6 PM+</div></div></div>
@@ -1157,7 +1380,46 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <div class="opt-card"><div class="opt-card-title"><i class="ti ti-shopping-bag"></i> Souvenir shopping</div><div class="opt-card-sub">H'Mong textiles · local coffee · handicrafts</div><div class="image-upload-slot" data-alt="Sapa market" data-image-key="photo-29" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-top:6px"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Sapa market</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div>
 </div>
 </div></div></div></div>
-<div class="tl-row"><div class="tl-left"><div class="tl-time">5 PM+</div><div class="tl-spine"><div class="tl-dot" style="background:var(--orange)"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--orange)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-tools-kitchen-2"></i>Final group dinner in Sapa 🌄</div><span class="ctag tag-ml">evening</span></div><div class="cdesc">Last night in the mountains — make it count! Venue TBD on the night.</div></div></div></div></div>
+<div class="tl-row"><div class="tl-left"><div class="tl-time">5 PM+</div><div class="tl-spine"><div class="tl-dot" style="background:var(--orange)"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--orange)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-tools-kitchen-2"></i>Final group dinner in Sapa 🌄</div><span class="ctag tag-ml">evening</span></div><div class="cdesc">Last night in the mountains — make it count! Here are the top 3 picks from TripAdvisor. Vote on the night!</div>
+<div style="display:flex;flex-direction:column;gap:14px;margin-top:12px">
+<div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+<div style="background:var(--green-bg);padding:8px 12px;display:flex;align-items:center;gap:8px">
+<span style="font-size:13px;font-weight:600;color:var(--green-text)">🥇 Mẩy Quán</span>
+<span style="font-size:10px;background:var(--green-text);color:#fff;padding:2px 7px;border-radius:99px">TripAdvisor #1</span>
+</div>
+<div style="padding:10px 12px;font-size:12px;color:var(--text2);line-height:1.6">Beloved local gem known for its hearty Vietnamese mountain cuisine in a warm, rustic setting. <b style="color:var(--text)">Best sellers:</b> Thắng cố (traditional horse meat stew), grilled pork with bamboo shoots, and black sesame rice wine.</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 12px 12px">
+<div class="image-upload-slot" data-alt="Mẩy Quán interior" data-image-key="oct7-may-quan-1"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Interior</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+<div class="image-upload-slot" data-alt="Mẩy Quán food 1" data-image-key="oct7-may-quan-2"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Food 1</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+<div class="image-upload-slot" data-alt="Mẩy Quán food 2" data-image-key="oct7-may-quan-3"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Food 2</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+</div>
+</div>
+<div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+<div style="background:var(--blue-bg);padding:8px 12px;display:flex;align-items:center;gap:8px">
+<span style="font-size:13px;font-weight:600;color:var(--blue-text)">🥈 Sapa Sky View Restaurant &amp; Bar</span>
+<span style="font-size:10px;background:var(--blue-text);color:#fff;padding:2px 7px;border-radius:99px">TripAdvisor #2</span>
+</div>
+<div style="padding:10px 12px;font-size:12px;color:var(--text2);line-height:1.6">Panoramic views over the Sapa valley from elevated rooftop seating — stunning at sunset. <b style="color:var(--text)">Best sellers:</b> Sapa salmon with lemongrass, beef pho with house broth, grilled H'Mong corn, and signature Sapa cocktails.</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 12px 12px">
+<div class="image-upload-slot" data-alt="Sapa Sky View interior" data-image-key="oct7-skyview-1"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Interior</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+<div class="image-upload-slot" data-alt="Sapa Sky View food 1" data-image-key="oct7-skyview-2"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Food 1</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+<div class="image-upload-slot" data-alt="Sapa Sky View food 2" data-image-key="oct7-skyview-3"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Food 2</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+</div>
+</div>
+<div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+<div style="background:var(--pink-bg);padding:8px 12px;display:flex;align-items:center;gap:8px">
+<span style="font-size:13px;font-weight:600;color:var(--pink-text)">🥉 Sapa Center Cafe - Restaurant</span>
+<span style="font-size:10px;background:var(--pink-text);color:#fff;padding:2px 7px;border-radius:99px">TripAdvisor #3</span>
+</div>
+<div style="padding:10px 12px;font-size:12px;color:var(--text2);line-height:1.6">Cozy café-restaurant right in the heart of Sapa town — great for a relaxed final evening. <b style="color:var(--text)">Best sellers:</b> Bánh mì with local pâté, spring rolls, Vietnamese set meals, and strong local egg coffee to finish.</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 12px 12px">
+<div class="image-upload-slot" data-alt="Sapa Center Cafe interior" data-image-key="oct7-center-cafe-1"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Interior</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+<div class="image-upload-slot" data-alt="Sapa Center Cafe food 1" data-image-key="oct7-center-cafe-2"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Food 1</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+<div class="image-upload-slot" data-alt="Sapa Center Cafe food 2" data-image-key="oct7-center-cafe-3"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Food 2</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+</div>
+</div>
+</div>
+</div></div></div></div>
 </div>
 </div>
 <!-- ============ OCT 8 ============ -->
@@ -1281,7 +1543,6 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <div class="card-photos" style="margin-top:10px">
 <div class="image-upload-slot" data-alt="Pearl farm Ha Long Bay" data-image-key="photo-44"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Pearl farm Ha Long Bay</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
 <div class="image-upload-slot" data-alt="Pearl oyster farm Vietnam" data-image-key="photo-45"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Pearl oyster farm Vietnam</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
-
 </div>
 </div></div></div></div>
 <div class="tl-row"><div class="tl-left"><div class="tl-time">11:30 AM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-anchor"></i>Arrive Tuan Chau Marina · Board Hercules Grand</div><span class="ctag tag-tr">board</span></div><div class="cdesc">Set sail on the Hercules Grand cruise into Ha Long Bay.</div>
@@ -1330,9 +1591,48 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <div class="leg"><div class="ldot" style="background:var(--gray)"></div>Transit</div>
 </div>
 <div class="tl">
-<div class="tl-row"><div class="tl-left"><div class="tl-time">Morning</div><div class="tl-spine"><div class="tl-dot" style="background:var(--pink)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--pink)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-sun"></i>Free time — enjoy your last Hanoi morning</div><span class="ctag tag-ft">free</span></div><div class="cdesc">Explore at your own pace — last chance for egg coffee, pho, souvenir shopping, or a quick stroll around Hoan Kiem Lake.</div></div></div></div></div>
+<div class="tl-row"><div class="tl-left"><div class="tl-time">Morning</div><div class="tl-spine"><div class="tl-dot" style="background:var(--pink)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--pink)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-sun"></i>Free time — enjoy your last Hanoi morning</div><span class="ctag tag-ft">free</span></div><div class="cdesc">Explore at your own pace — last chance for egg coffee, pho, souvenir shopping, or a quick stroll around Hoan Kiem Lake.</div><div class="card-photos" style="margin-top:10px"><div class="image-upload-slot" data-alt="Hanoi morning attraction" data-image-key="oct11-morning-1"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Attraction 1</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div><div class="image-upload-slot" data-alt="Hanoi morning attraction" data-image-key="oct11-morning-2"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Attraction 2</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div><div class="image-upload-slot" data-alt="Hanoi morning attraction" data-image-key="oct11-morning-3"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Attraction 3</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div><div class="image-upload-slot" data-alt="Hanoi morning attraction" data-image-key="oct11-morning-4"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Attraction 4</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div></div></div></div></div></div>
 <div class="tl-row"><div class="tl-left"><div class="tl-time">11:00 AM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-logout"></i>Checkout from accommodation</div><span class="ctag tag-tr">checkout</span></div><div class="cdesc">Leave bags at hotel reception if needed while you grab a last meal nearby.</div></div></div></div></div>
-<div class="tl-row"><div class="tl-left"><div class="tl-time">11:30 AM–1 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--orange)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-tools-kitchen-2"></i>Last group lunch in Vietnam — fancy restaurant</div><span class="ctag tag-ml">farewell meal</span></div><div class="cdesc">Make it memorable! Last Vietnamese meal together — bun cha, cha ca, pho… no regrets!</div></div></div></div></div>
+<div class="tl-row"><div class="tl-left"><div class="tl-time">11:30 AM–1 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--orange)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-tools-kitchen-2"></i>Last group lunch in Vietnam — fancy restaurant</div><span class="ctag tag-ml">farewell meal</span></div><div class="cdesc">Make it memorable! Last Vietnamese meal together. Here are 3 top TripAdvisor picks in Hanoi — vote before the day!</div>
+<div style="display:flex;flex-direction:column;gap:14px;margin-top:12px">
+<div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+<div style="background:var(--green-bg);padding:8px 12px;display:flex;align-items:center;gap:8px">
+<span style="font-size:13px;font-weight:600;color:var(--green-text)">🥇 Gánh Hà Nội Restaurant</span>
+<span style="font-size:10px;background:var(--green-text);color:#fff;padding:2px 7px;border-radius:99px">TripAdvisor #1</span>
+</div>
+<div style="padding:10px 12px;font-size:12px;color:var(--text2);line-height:1.6">Authentic Hanoi home-cooking in a charming traditional house — like eating at a local family's table. <b style="color:var(--text)">Best sellers:</b> Bún chả Hà Nội (grilled pork with vermicelli), chả cá Lã Vọng (turmeric fish), steamed sticky rice, and caramelised ginger pork.</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 12px 12px">
+<div class="image-upload-slot" data-alt="Gánh Hà Nội interior" data-image-key="oct11-ganh-1"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Interior</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+<div class="image-upload-slot" data-alt="Gánh Hà Nội food 1" data-image-key="oct11-ganh-2"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Food 1</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+<div class="image-upload-slot" data-alt="Gánh Hà Nội food 2" data-image-key="oct11-ganh-3"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Food 2</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+</div>
+</div>
+<div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+<div style="background:var(--blue-bg);padding:8px 12px;display:flex;align-items:center;gap:8px">
+<span style="font-size:13px;font-weight:600;color:var(--blue-text)">🥈 Hanoi Skyline Lounge</span>
+<span style="font-size:10px;background:var(--blue-text);color:#fff;padding:2px 7px;border-radius:99px">TripAdvisor #2</span>
+</div>
+<div style="padding:10px 12px;font-size:12px;color:var(--text2);line-height:1.6">Rooftop dining with sweeping views over the Old Quarter and Hoan Kiem Lake — the fanciest farewell setting. <b style="color:var(--text)">Best sellers:</b> Premium beef pho, soft-shell crab spring rolls, Vietnamese tapas sharing platter, and craft cocktails with a Hanoi skyline view.</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 12px 12px">
+<div class="image-upload-slot" data-alt="Hanoi Skyline Lounge interior" data-image-key="oct11-skyline-1"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Interior</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+<div class="image-upload-slot" data-alt="Hanoi Skyline Lounge food 1" data-image-key="oct11-skyline-2"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Food 1</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+<div class="image-upload-slot" data-alt="Hanoi Skyline Lounge food 2" data-image-key="oct11-skyline-3"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Food 2</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+</div>
+</div>
+<div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+<div style="background:var(--pink-bg);padding:8px 12px;display:flex;align-items:center;gap:8px">
+<span style="font-size:13px;font-weight:600;color:var(--pink-text)">🥉 Met Vietnamese Restaurant &amp; Vegan 3</span>
+<span style="font-size:10px;background:var(--pink-text);color:#fff;padding:2px 7px;border-radius:99px">TripAdvisor #3</span>
+</div>
+<div style="padding:10px 12px;font-size:12px;color:var(--text2);line-height:1.6">Elegant Vietnamese dining with excellent vegan and vegetarian options alongside classic meat dishes — great for mixed groups. <b style="color:var(--text)">Best sellers:</b> Phở chay (vegan pho), crispy tofu with lemongrass, lotus stem salad, and Vietnamese crepes (bánh xèo).</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 12px 12px">
+<div class="image-upload-slot" data-alt="Met Vietnamese Restaurant interior" data-image-key="oct11-met-1"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Interior</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+<div class="image-upload-slot" data-alt="Met Vietnamese food 1" data-image-key="oct11-met-2"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Food 1</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+<div class="image-upload-slot" data-alt="Met Vietnamese food 2" data-image-key="oct11-met-3"><div class="image-upload-placeholder"><i class="ti ti-photo-plus"></i><span>Add image</span><small>Food 2</small></div><div class="image-upload-actions"><button class="image-upload-btn" type="button">Add image</button><button class="image-remove-btn" type="button">Remove</button><input accept="image/*" class="image-upload-input" type="file"/></div></div>
+</div>
+</div>
+</div>
+</div></div></div></div>
 <div class="tl-row"><div class="tl-left"><div class="tl-time">1:00 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-car"></i>Head to Noi Bai Airport</div><span class="ctag tag-tr">depart</span></div><div class="cdesc">Grab a Grab to the airport. ~45–60 min drive depending on traffic.</div><div class="pills"><span class="tpill"><i class="ti ti-alert-circle"></i> Allow extra time for afternoon traffic</span></div></div></div></div></div>
 <div class="tl-row"><div class="tl-left"><div class="tl-time">2:00 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-building-airport"></i>Arrive Noi Bai Airport</div><span class="ctag tag-tr">arrive</span></div><div class="cdesc">Check in, clear security, and wait for departure. 5 PM flight — arrive 3 hours early!</div></div></div></div></div>
 <div class="tl-row"><div class="tl-left"><div class="tl-time">5:00 PM</div><div class="tl-spine"><div class="tl-dot" style="background:var(--gray)"></div><div class="tl-line"></div></div></div><div class="tl-body"><div class="card"><div class="cacc" style="background:var(--gray)"></div><div class="cbody"><div class="ctop"><div class="ctitle"><i class="ti ti-plane-departure"></i>Departure — Hanoi → Cebu</div><span class="ctag tag-tr">flight</span></div></div></div></div></div>
@@ -1342,23 +1642,23 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <!-- ============ BUDGET ============ -->
 <div class="panel" id="panel-budget">
 <div class="day-hdr"><div><div class="dname">Budget Tracker</div><div class="dsub">Check your activities · enter actual cost when booked or paid</div></div></div>
-<div class="banner banner-green"><i class="ti ti-info-circle"></i><span>Fixed items are always counted. Optional items (☐) are only added when checked. Radio buttons (◉) mean pick one. Enter actual costs as you book to track your real spend.</span></div>
+<div class="banner banner-green"><i class="ti ti-info-circle"></i><span>Fixed items are always counted. Optional items (☐) are only added when checked. Radio buttons (◉) mean pick one. Enter actual costs as you book to track your real spend. Day totals now show both Budget and Actual columns.</span></div>
 <div class="budget-wrap">
 <!-- OCT 4 -->
 <div class="bsection">
 <div class="bsec-head"><i class="ti ti-plane-departure" style="color:var(--text3)"></i><span class="bsec-title">Oct 4</span><span class="bsec-date">Cebu → Hanoi → Sapa</span></div>
-<table class="btable">
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup>
 <thead><tr><th>Item</th><th class="c">✓</th><th class="r">Budget</th><th class="r">Actual</th></tr></thead>
 <tbody>
 <tr><td><div class="b-item">Sleeper Bus — Hanoi → Sapa<span class="b-fixed-tag">fixed</span></div><div class="b-item-sub">Klook package · includes lounge access in Sapa</div></td><td class="c">—</td><td class="r b-budget">₱1,150</td><td class="r"><input class="actual-input" id="act-bus" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 </tbody>
 </table>
-<table class="btable"><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt4-b">₱1,150</td><td class="r" id="dt4-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt4-b">₱1,150</td><td class="r" id="dt4-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
 </div>
 <!-- OCT 5 -->
 <div class="bsection">
 <div class="bsec-head"><i class="ti ti-trees" style="color:var(--text3)"></i><span class="bsec-title">Oct 5</span><span class="bsec-date">Arrive Sapa + Cat Cat Village</span></div>
-<table class="btable">
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup>
 <thead><tr><th>Item</th><th class="c">✓</th><th class="r">Budget</th><th class="r">Actual</th></tr></thead>
 <tbody>
 <tr><td><div class="b-item">Cat Cat Village entrance<span class="b-fixed-tag">fixed</span></div></td><td class="c">—</td><td class="r b-budget">₱360</td><td class="r"><input class="actual-input" id="act-catcat" oninput="recalc()" placeholder="—" type="number"/></td></tr>
@@ -1368,12 +1668,12 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <tr><td><div class="b-item">Motorbike back uphill<span class="b-fixed-tag">fixed</span></div></td><td class="c">—</td><td class="r b-budget">₱120</td><td class="r"><input class="actual-input" id="act-moto" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 </tbody>
 </table>
-<table class="btable"><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt5-b">₱580</td><td class="r" id="dt5-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt5-b">₱580</td><td class="r" id="dt5-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
 </div>
 <!-- OCT 6 -->
 <div class="bsection">
 <div class="bsec-head"><i class="ti ti-mountain" style="color:var(--text3)"></i><span class="bsec-title">Oct 6</span><span class="bsec-date">Fansipan Mountain Day</span></div>
-<table class="btable">
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup>
 <thead><tr><th>Item</th><th class="c">✓</th><th class="r">Budget</th><th class="r">Actual</th></tr></thead>
 <tbody>
 <tr><td><div class="b-item">Fansipan — monorail + cable car + Van Sam buffet<span class="b-fixed-tag">fixed</span></div><div class="b-item-sub">Book on Klook to skip queues · 2–3 days ahead</div></td><td class="c">—</td><td class="r b-budget">₱2,900</td><td class="r"><input class="actual-input" id="act-fans" oninput="recalc()" placeholder="—" type="number"/></td></tr>
@@ -1384,12 +1684,12 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <tr id="r-c6-other"><td><div class="b-item b-sub-item">Other: <input class="other-name-input" id="other-c6-name" placeholder="activity name" type="text"/><span class="b-opt-tag">optional</span></div></td><td class="c"><input id="cb-c6-other" onchange="recalc()" type="checkbox"/></td><td class="r"><span class="b-empty">—</span></td><td class="r"><input class="actual-input" id="act-c6-other" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 </tbody>
 </table>
-<table class="btable"><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt6-b">₱2,900</td><td class="r" id="dt6-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt6-b">₱2,900</td><td class="r" id="dt6-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
 </div>
 <!-- OCT 7 -->
 <div class="bsection">
 <div class="bsec-head"><i class="ti ti-building-bridge" style="color:var(--text3)"></i><span class="bsec-title">Oct 7</span><span class="bsec-date">Glass Bridge + Waterfall</span></div>
-<table class="btable">
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup>
 <thead><tr><th>Item</th><th class="c">✓</th><th class="r">Budget</th><th class="r">Actual</th></tr></thead>
 <tbody>
 <tr><td><div class="b-item">Roundtrip transport to Rong May<span class="b-fixed-tag">fixed</span></div><div class="b-item-sub">Budget for flexible ride options to/from Glass Bridge</div></td><td class="c">—</td><td class="r b-budget">₱500</td><td class="r"><input class="actual-input" id="act-taxi7" oninput="recalc()" placeholder="—" type="number"/></td></tr>
@@ -1409,51 +1709,51 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <tr id="r-c7-other"><td><div class="b-item b-sub-item">Other: <input class="other-name-input" id="other-c7-name" placeholder="activity name" type="text"/><span class="b-opt-tag">optional</span></div></td><td class="c"><input id="cb-c7-other" onchange="recalc()" type="checkbox"/></td><td class="r"><span class="b-empty">—</span></td><td class="r"><input class="actual-input" id="act-c7-other" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 </tbody>
 </table>
-<table class="btable"><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt7-b">₱1,550</td><td class="r" id="dt7-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt7-b">₱1,550</td><td class="r" id="dt7-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
 </div>
 <!-- OCT 8 -->
 <div class="bsection">
 <div class="bsec-head"><i class="ti ti-bus" style="color:var(--text3)"></i><span class="bsec-title">Oct 8</span><span class="bsec-date">Sapa → Hanoi</span></div>
-<table class="btable">
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup>
 <thead><tr><th>Item</th><th class="c">✓</th><th class="r">Budget</th><th class="r">Actual</th></tr></thead>
 <tbody>
 <tr><td><div class="b-item">Sleeper Bus — Sapa → Hanoi<span class="b-fixed-tag">fixed</span></div></td><td class="c">—</td><td class="r b-budget">₱800</td><td class="r"><input class="actual-input" id="act-bus8" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 </tbody>
 </table>
-<table class="btable"><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt8-b">₱800</td><td class="r" id="dt8-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt8-b">₱800</td><td class="r" id="dt8-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
 </div>
 <!-- OCT 9 TOUR -->
 <div class="bsection">
 <div class="bsec-head"><i class="ti ti-building-arch" style="color:var(--text3)"></i><span class="bsec-title">Oct 9</span><span class="bsec-date">Bai Dinh · Trang An · Hang Mua (Joiner Tour)</span></div>
-<table class="btable">
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup>
 <thead><tr><th>Item</th><th class="c">✓</th><th class="r">Budget</th><th class="r">Actual</th></tr></thead>
 <tbody>
 <tr><td><div class="b-item">Joiner Tour — Bai Dinh · Trang An · Mua Cave<span class="b-fixed-tag">fixed</span></div><div class="b-item-sub">Hotel pickup · lunch · boat ride · all entry fees included</div></td><td class="c">—</td><td class="r b-budget">₱3,200</td><td class="r"><input class="actual-input" id="act-tour9" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 </tbody>
 </table>
-<table class="btable"><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt9-b">₱3,200</td><td class="r" id="dt9-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt9-b">₱3,200</td><td class="r" id="dt9-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
 </div>
 <!-- OCT 10 TOUR -->
 <div class="bsection">
 <div class="bsec-head"><i class="ti ti-anchor" style="color:var(--text3)"></i><span class="bsec-title">Oct 10</span><span class="bsec-date">Ha Long Bay — Hercules Grand Cruise (Joiner Tour)</span></div>
-<table class="btable">
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup>
 <thead><tr><th>Item</th><th class="c">✓</th><th class="r">Budget</th><th class="r">Actual</th></tr></thead>
 <tbody>
 <tr><td><div class="b-item">Joiner Tour — Ha Long Bay Hercules Grand Cruise<span class="b-fixed-tag">fixed</span></div><div class="b-item-sub">Hotel pickup · buffet lunch · caves · kayak/bamboo boat · afternoon tea</div></td><td class="c">—</td><td class="r b-budget">₱2,600</td><td class="r"><input class="actual-input" id="act-tour10" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 </tbody>
 </table>
-<table class="btable"><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt10-b">₱2,600</td><td class="r" id="dt10-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup><tbody><tr class="day-total-row"><td colspan="2">Day total / person</td><td class="r" id="dt10-b">₱2,600</td><td class="r" id="dt10-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
 </div>
 <div class="bsection">
 <div class="bsec-head"><i class="ti ti-home" style="color:var(--text3)"></i><span class="bsec-title">Accommodation</span><span class="bsec-date">Sapa (3 nights) + Hanoi (3 nights)</span></div>
-<table class="btable">
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup>
 <thead><tr><th>Item</th><th class="c">✓</th><th class="r">Budget</th><th class="r">Actual</th></tr></thead>
 <tbody>
 <tr class="accom-row"><td><div class="b-item">Sapa — 3 nights (Oct 5, 6, 7)<span class="b-fixed-tag">fixed</span></div><div class="b-item-sub">Budget estimate per person</div></td><td class="c">—</td><td class="r b-budget">₱2,500</td><td class="r"><input class="actual-input" id="act-accom" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 <tr class="accom-row"><td><div class="b-item">Hanoi — 3 nights (Oct 8, 9, 10)<span class="b-fixed-tag">fixed</span></div><div class="b-item-sub">Budget estimate per person</div></td><td class="c">—</td><td class="r b-budget">₱2,500</td><td class="r"><input class="actual-input" id="act-accom-hanoi" oninput="recalc()" placeholder="—" type="number"/></td></tr>
 </tbody>
 </table>
-<table class="btable"><tbody><tr class="day-total-row"><td colspan="2">Accommodation total / person</td><td class="r">₱5,000</td><td class="r" id="dta-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
+<table class="activity-budget-table btable"><colgroup><col class="item" style="width:55%"/><col class="check" style="width:9%"/><col class="budget" style="width:18%"/><col class="actual" style="width:18%"/></colgroup><tbody><tr class="day-total-row"><td colspan="2">Accommodation total / person</td><td class="r">₱5,000</td><td class="r" id="dta-a" style="color:var(--blue-text)">—</td></tr></tbody></table>
 </div>
 <!-- GRAND TOTAL -->
 <div class="grand-total">
@@ -1477,7 +1777,7 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <!-- MEAL BUDGET -->
 <div class="bsection">
 <div class="bsec-head"><i class="ti ti-tools-kitchen-2" style="color:var(--text3)"></i><span class="bsec-title">Meal Budget</span><span class="bsec-date">Oct 4–11 · per person</span></div>
-<table class="btable">
+<table class="meal-budget-table btable"><colgroup><col class="item" style="width:58%"/><col class="budget" style="width:21%"/><col class="actual" style="width:21%"/></colgroup>
 <thead><tr><th>Meal</th><th class="r">Budget</th><th class="r">Actual</th></tr></thead>
 <tbody>
 <tr><td colspan="3" style="padding-left:10px;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;background:var(--bg2)">Oct 4</td></tr>
@@ -1507,14 +1807,14 @@ body.guest-mode .planbtn { pointer-events: none; opacity: .65; }
 <tr><td><div class="b-item">☀️ Lunch</div></td><td class="r"><input class="actual-input" id="meal-oct11-lunch" oninput="recalcMeals()" placeholder="₱0" type="number"/></td><td class="r"><input class="actual-input" id="mact-oct11-lunch" oninput="recalcMeals()" placeholder="—" type="number"/></td></tr>
 </tbody>
 </table>
-<table class="btable"><tbody>
+<table class="meal-budget-table btable"><colgroup><col class="item" style="width:58%"/><col class="budget" style="width:21%"/><col class="actual" style="width:21%"/></colgroup><tbody>
 <tr class="day-total-row"><td>Total meal budget / person</td><td class="r" id="meal-total-b" style="font-size:13px;font-weight:600;color:var(--text)">—</td><td class="r" id="meal-total-a" style="font-size:13px;font-weight:600;color:var(--blue-text)">—</td></tr>
 </tbody></table>
 </div>
 <!-- TOTAL ACTUAL COST -->
 <div class="bsection" style="border:2px solid var(--green);box-shadow:0 4px 16px rgba(29,158,117,0.12)">
 <div class="bsec-head" style="background:var(--green-bg);border-bottom:1px solid #b8e8d4"><i class="ti ti-cash" style="color:var(--green-text)"></i><span class="bsec-title" style="color:var(--green-text)">Total Actual Cost</span><span class="bsec-date">Activities + Accommodation + Meals</span></div>
-<table class="btable"><tbody>
+<table class="meal-budget-table btable"><colgroup><col class="item" style="width:58%"/><col class="budget" style="width:21%"/><col class="actual" style="width:21%"/></colgroup><tbody>
 <tr class="day-total-row"><td colspan="2" style="font-size:13px;font-weight:600;color:var(--text)">Grand Actual Total / person</td><td class="r" id="grand-actual-all" style="font-size:15px;font-weight:700;color:var(--green-text)">—</td></tr>
 </tbody></table>
 </div>
@@ -1529,11 +1829,6 @@ function showDay(id, btn) {
   document.getElementById('panel-' + id).classList.add('active');
   btn.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function selectOpt(n) {
-  document.getElementById('opt1-card').classList.toggle('selected', n === 1);
-  document.getElementById('opt2-card').classList.toggle('selected', n === 2);
 }
 
 function selectOct8Opt(n) {
@@ -1635,7 +1930,7 @@ function recalc() {
   document.getElementById('dt4-b').textContent = fmt(d4b);
   document.getElementById('dt4-a').textContent = d4a !== null ? fmt(d4a) : '—';
   document.getElementById('dt5-b').textContent = fmt(d5b);
-  document.getElementById('dt5-a').textContent = '—'; // simple
+  document.getElementById('dt5-a').textContent = d5a !== null ? fmt(d5a) : '—';
   document.getElementById('dt6-b').textContent = fmt(d6b);
   document.getElementById('dt6-a').textContent = d6a !== null ? fmt(d6a) : '—';
   document.getElementById('dt7-b').textContent = fmt(d7b);
@@ -1666,13 +1961,13 @@ function recalc() {
   document.getElementById('grand-b').textContent = '₱' + grandBTotal.toLocaleString();
   // Sync overview stat
   const ovEst = document.getElementById('ov-est');
-  if (ovEst) ovEst.textContent = '₱' + Math.round(grandBTotal / 1000) + 'k+';
+  if (ovEst) ovEst.textContent = fmt(grandBTotal);
 
   // Grand actual (activities + accommodation)
-  const actuals = [d4a, d6a, d7a, d8a, d9a, d10a, accomA, accomHanoiA];
+  const actuals = [d4a, d5a, d6a, d7a, d8a, d9a, d10a, accomA, accomHanoiA];
   const hasAny = actuals.some(v => v !== null);
   if (hasAny) {
-    const total = (d4a ?? d4b) + (d5b) + (d6a ?? d6b) + (d7a ?? d7b) + (d8a ?? d8b) + (d9a ?? d9b) + (d10a ?? d10b) + (accomA ?? 2500) + (accomHanoiA ?? 2500);
+    const total = (d4a ?? d4b) + (d5a ?? d5b) + (d6a ?? d6b) + (d7a ?? d7b) + (d8a ?? d8b) + (d9a ?? d9b) + (d10a ?? d10b) + (accomA ?? 2500) + (accomHanoiA ?? 2500);
     document.getElementById('grand-a').textContent = fmt(total);
   } else {
     document.getElementById('grand-a').textContent = '—';
@@ -1720,6 +2015,86 @@ function recalcMeals() {
 window.recalc = recalc;
 window.recalcMeals = recalcMeals;
 recalc();
+
+/* ── LIGHTBOX ── */
+(function() {
+  const overlay  = document.getElementById('lightbox');
+  const viewerImg = document.getElementById('lightbox-img');
+  const caption  = document.getElementById('lightbox-caption');
+  const inner    = document.getElementById('lightbox-inner');
+  const closeBtn = document.getElementById('lightbox-close');
+
+  if (!overlay || !viewerImg || !caption || !inner || !closeBtn) return;
+
+  function openLightbox(src, alt) {
+    if (!src) return;
+    // Reset first so repeated opens always work, even after closing or changing images.
+    viewerImg.removeAttribute('src');
+    viewerImg.alt = '';
+    caption.textContent = '';
+
+    requestAnimationFrame(() => {
+      viewerImg.src = src;
+      viewerImg.alt = alt || '';
+      caption.textContent = alt || '';
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
+  function closeLightbox() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    viewerImg.removeAttribute('src');
+    viewerImg.alt = '';
+    caption.textContent = '';
+  }
+
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeLightbox();
+  });
+
+  closeBtn.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeLightbox();
+  });
+
+  inner.addEventListener('click', e => e.stopPropagation());
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeLightbox();
+  });
+
+  // Backup delegation for any regular images not produced by renderImageSlot.
+  document.addEventListener('click', e => {
+    if (overlay.classList.contains('open')) return;
+    if (e.target.closest('.image-upload-actions, button, input')) return;
+
+    const slot = e.target.closest('.image-upload-slot.has-image');
+    if (slot) {
+      const slotImg = slot.querySelector('img');
+      const src = slot.dataset.imageUrl || slotImg?.currentSrc || slotImg?.src || '';
+      if (!src) return;
+      e.preventDefault();
+      e.stopPropagation();
+      openLightbox(src, slotImg?.alt || slot.dataset.alt || 'Trip photo');
+      return;
+    }
+
+    const clickedImg = e.target.closest('img');
+    if (!clickedImg) return;
+    if (!clickedImg.closest('.card-photos, .opt-pick, .wfall-opt, .opt-card')) return;
+    const src = clickedImg.currentSrc || clickedImg.src || '';
+    if (!src || src.startsWith('data:image/svg')) return;
+    e.preventDefault();
+    e.stopPropagation();
+    openLightbox(src, clickedImg.alt || 'Trip photo');
+  }, true);
+
+  window.openLightbox = openLightbox;
+  window.closeLightbox = closeLightbox;
+})();
 </script>
 <script type="module">
 /* =========================================================
@@ -1932,23 +2307,41 @@ function renderImageSlot(slot, info = {}) {
   const alt = info.alt || slot.dataset.alt || "Trip photo";
   const existingImg = slot.querySelector("img");
   const placeholder = slot.querySelector(".image-upload-placeholder");
+
+  // One reliable click handler per slot. This avoids the lightbox working only
+  // once when images are dynamically replaced after Firebase/local rendering.
+  slot.onclick = (ev) => {
+    if (ev.target.closest(".image-upload-actions, .image-upload-btn, .image-remove-btn, .image-upload-input, button, input")) return;
+    if (!slot.classList.contains("has-image")) return;
+    const currentImg = slot.querySelector("img");
+    const fullSrc = slot.dataset.imageUrl || currentImg?.currentSrc || currentImg?.src || "";
+    if (!fullSrc) return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    window.openLightbox?.(fullSrc, currentImg?.alt || slot.dataset.alt || "Trip photo");
+  };
+
   if (url) {
     slot.classList.add("has-image");
     if (placeholder) placeholder.style.display = "none";
-    if (existingImg) {
-      existingImg.src = url;
-      existingImg.alt = alt;
-    } else {
-      const img = document.createElement("img");
-      img.src = url;
-      img.alt = alt;
+    let img = existingImg;
+    if (!img) {
+      img = document.createElement("img");
       img.loading = "lazy";
       slot.insertBefore(img, slot.firstChild);
     }
+    img.src = url;
+    img.alt = alt;
+    img.onclick = (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      window.openLightbox?.(slot.dataset.imageUrl || img.currentSrc || img.src, img.alt || slot.dataset.alt || "Trip photo");
+    };
     const addBtn = slot.querySelector(".image-upload-btn");
     if (addBtn) addBtn.textContent = "Change";
   } else {
     slot.classList.remove("has-image");
+    slot.dataset.imageUrl = "";
     if (existingImg) existingImg.remove();
     if (placeholder) placeholder.style.display = "flex";
     const addBtn = slot.querySelector(".image-upload-btn");
@@ -2185,6 +2578,7 @@ async function saveAll() {
 
 function installImageFallbacks() {
   document.querySelectorAll("img").forEach(img => {
+    if (img.id === "lightbox-img") return; // never destroy the lightbox element
     img.addEventListener("error", () => {
       const label = img.alt || "Trip photo";
       const div = document.createElement("div");
