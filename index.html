@@ -101,7 +101,8 @@ body {
 }
 .tabs::-webkit-scrollbar { display: none; }
 @media (max-width: 600px) {
-  .tabs-wrap { padding: 10px 12px; }
+  .tabs { justify-content: flex-start; flex-wrap: nowrap; }
+  .tabs-wrap { padding: 12px 16px; }
 }
 .tb {
   padding: 7px 15px;
@@ -857,6 +858,8 @@ body.guest-mode .opt-pick,
 body.member-mode .opt-pick { cursor: default; pointer-events: none; }
 body.guest-mode .planbtn,
 body.member-mode .planbtn { pointer-events: none; opacity: .65; }
+body.guest-mode .budget-tab-btn { display: none !important; }
+body.guest-mode #panel-budget { display: none !important; }
 
 /* ── LIGHTBOX ── */
 .lightbox-overlay {
@@ -1121,96 +1124,14 @@ body.member-mode .planbtn { pointer-events: none; opacity: .65; }
 #panel-budget .actual-input {
   width: min(100%, 90px);
 }
-/* ── MOBILE BUDGET PANEL — full overhaul ── */
-@media (max-width: 540px) {
-
-  /* Tighten table padding across the board */
-  #panel-budget .btable th,
-  #panel-budget .btable td { padding: 7px 6px; }
-
-  /* ── Activity tables (4-col: Item | ✓ | Budget | Actual) ──
-     On mobile: hide Budget column, shrink ✓, let Item grow */
-  #panel-budget .activity-budget-table { table-layout: fixed; }
-  #panel-budget .activity-budget-table col.item  { width: 58% !important; }
-  #panel-budget .activity-budget-table col.check { width: 11% !important; }
-  #panel-budget .activity-budget-table col.budget { width: 0 !important; overflow: hidden; }
-  #panel-budget .activity-budget-table col.actual { width: 31% !important; }
-  #panel-budget .activity-budget-table th:nth-child(3),
-  #panel-budget .activity-budget-table td:nth-child(3) {
-    display: none; /* hide Budget column on mobile */
-  }
-
-  /* Actual input — fill the narrower cell */
-  #panel-budget .actual-input,
-  #panel-budget .tracker-amount { width: 100%; min-width: 0; max-width: none; }
-
-  /* Item text — prevent overflow */
-  #panel-budget .b-item { font-size: 12px; }
-  #panel-budget .b-item-sub { font-size: 10px; }
-  #panel-budget .b-fixed-tag,
-  #panel-budget .b-opt-tag { display: none; } /* hide tags on mobile to save space */
-
-  /* ── Meal tracker (5-col: Day | Meal | Description | Amount | ×)
-     On mobile: stack into 2 rows per entry via display:block trick */
-  #panel-budget .tracker-table { table-layout: auto; }
-  #panel-budget .tracker-table thead { display: none; } /* hide header, rows are self-explaining */
-  #panel-budget .tracker-table tbody tr[data-tracker] { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 6px; border-bottom: 1px solid var(--border2); align-items: center; }
-  #panel-budget .tracker-table tbody tr[data-tracker] td { display: block; border: none; padding: 0; }
-
-  /* Meal tracker row layout on mobile */
-  #panel-budget .tracker-table[data-type="meal"] tr[data-tracker] td:nth-child(1) { width: calc(40% - 4px); } /* Day */
-  #panel-budget .tracker-table[data-type="meal"] tr[data-tracker] td:nth-child(2) { width: calc(40% - 4px); } /* Meal type */
-  #panel-budget .tracker-table[data-type="meal"] tr[data-tracker] td:nth-child(3) { width: 100%; }             /* Description full width */
-  #panel-budget .tracker-table[data-type="meal"] tr[data-tracker] td:nth-child(4) { flex: 1; }                /* Amount stretches */
-  #panel-budget .tracker-table[data-type="meal"] tr[data-tracker] td:nth-child(5) { width: 32px; }            /* × button */
-
-  /* Transpo tracker row layout on mobile */
-  #panel-budget .tracker-table[data-type="trans"] tr[data-tracker] td:nth-child(1) { width: calc(42% - 4px); } /* Day */
-  #panel-budget .tracker-table[data-type="trans"] tr[data-tracker] td:nth-child(2) { width: 100%; order: 3; }  /* Description below */
-  #panel-budget .tracker-table[data-type="trans"] tr[data-tracker] td:nth-child(3) { flex: 1; order: 2; }      /* Amount */
-  #panel-budget .tracker-table[data-type="trans"] tr[data-tracker] td:nth-child(4) { width: 32px; order: 2; } /* × button */
-
-  /* Shopping tracker same as transpo */
-  #panel-budget .tracker-table[data-type="shop"] tr[data-tracker] td:nth-child(1) { width: 100%; }
-  #panel-budget .tracker-table[data-type="shop"] tr[data-tracker] td:nth-child(2) { flex: 1; }
-  #panel-budget .tracker-table[data-type="shop"] tr[data-tracker] td:nth-child(3) { width: 32px; }
-
-  /* Total row stays normal */
-  #panel-budget .tracker-table .day-total-row { display: table-row !important; }
-  #panel-budget .tracker-table .day-total-row td { display: table-cell !important; padding: 9px 6px; }
-
-  /* Tracker inputs fill their flex cell */
-  #panel-budget .tracker-select,
-  #panel-budget .tracker-input { width: 100%; min-width: 0; font-size: 12px; padding: 6px 7px; }
-
-  /* Tracker summary stats — single column */
-  .tracker-summary { grid-template-columns: 1fr 1fr !important; gap: 6px; }
-  .tracker-stat .val { font-size: 14px; }
-
-  /* Grand total panel — tighten */
-  .gt-body { padding: 12px 14px; gap: 6px; }
-  .gt-lbl { font-size: 12px; }
-  .gt-val { font-size: 13px; }
-  .gt-final-val, .gt-actual-val { font-size: 20px; }
-
-  /* Other name input */
-  #panel-budget .other-name-input { width: 90px; }
-
-  /* Section head wraps gracefully */
-  .bsec-head { flex-wrap: wrap; gap: 4px; }
-  .bsec-date { width: 100%; margin-top: 0; }
+@media (max-width: 520px) {
+  #panel-budget .activity-budget-table col.item { width: 48% !important; }
+  #panel-budget .activity-budget-table col.check { width: 10% !important; }
+  #panel-budget .activity-budget-table col.budget,
+  #panel-budget .activity-budget-table col.actual { width: 21% !important; }
+  #panel-budget .btable th, #panel-budget .btable td { padding-left: 7px; padding-right: 7px; }
+  #panel-budget .actual-input { width: 72px; }
 }
-
-/* Very narrow screens */
-@media (max-width: 380px) {
-  #panel-budget .btable th,
-  #panel-budget .btable td { padding: 6px 4px; }
-  #panel-budget .b-item { font-size: 11px; }
-  .tracker-summary { grid-template-columns: 1fr !important; }
-  #panel-budget .tracker-select,
-  #panel-budget .tracker-input { font-size: 11px; padding: 5px 6px; }
-}
-
 
 
 /* FINAL BUDGET + MOBILE TAB FIXES */
@@ -1347,7 +1268,7 @@ body.member-mode .tabs-wrap, body.member-mode .tb { pointer-events:auto; }
 <button class="tb" onclick="showDay('d9',this)">Oct 9</button>
 <button class="tb" onclick="showDay('d10',this)">Oct 10</button>
 <button class="tb" onclick="showDay('d11',this)">Oct 11</button>
-<button class="tb" onclick="showDay('budget',this)"><i class="ti ti-wallet"></i> Budget Tracker</button>
+<button class="tb budget-tab-btn" onclick="showDay('budget',this)"><i class="ti ti-wallet"></i> Budget Tracker</button>
 <button class="tb" onclick="showDay('tripcost',this)"><i class="ti ti-cash"></i> Trip Total Cost</button>
 </div>
 </div>
@@ -1965,7 +1886,7 @@ body.member-mode .tabs-wrap, body.member-mode .tb { pointer-events:auto; }
   <div class="tracker-stat"><div class="lbl">Spent</div><div class="val" id="meal-total-a">—</div></div>
   <div class="tracker-stat remaining"><div class="lbl">Remaining</div><div class="val" id="meal-remaining">—</div></div>
 </div>
-<table class="tracker-table btable" data-type="meal"><thead><tr><th style="width:16%">Day</th><th style="width:18%">Meal</th><th>Description</th><th class="r" style="width:17%">Spent</th><th class="c" style="width:42px"></th></tr></thead><tbody id="meal-tracker-body">
+<table class="tracker-table btable"><thead><tr><th style="width:16%">Day</th><th style="width:18%">Meal</th><th>Description</th><th class="r" style="width:17%">Spent</th><th class="c" style="width:42px"></th></tr></thead><tbody id="meal-tracker-body">
 <tr data-tracker="meal" data-row="1">
 <td><select class="tracker-select" id="meal-day-1" oninput="recalcMeals()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
 <td><select class="tracker-select" id="meal-type-1" oninput="recalcMeals()"><option value="">Meal</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></td>
@@ -2188,7 +2109,7 @@ body.member-mode .tabs-wrap, body.member-mode .tb { pointer-events:auto; }
   <div class="tracker-stat"><div class="lbl">Spent</div><div class="val" id="transpo-total-a">—</div></div>
   <div class="tracker-stat remaining"><div class="lbl">Remaining</div><div class="val" id="transpo-remaining">—</div></div>
 </div>
-<table class="tracker-table btable" data-type="trans"><thead><tr><th style="width:18%">Day</th><th>Description</th><th class="r" style="width:18%">Spent</th><th class="c" style="width:42px"></th></tr></thead><tbody id="trans-tracker-body">
+<table class="tracker-table btable"><thead><tr><th style="width:18%">Day</th><th>Description</th><th class="r" style="width:18%">Spent</th><th class="c" style="width:42px"></th></tr></thead><tbody id="trans-tracker-body">
 <tr data-tracker="trans" data-row="1">
 <td><select class="tracker-select" id="trans-day-1" oninput="recalcTranspo()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
 <td><input class="tracker-input" id="trans-desc-1" oninput="recalcTranspo()" placeholder="Grab, taxi, motorbike, etc." type="text"/></td>
@@ -2381,7 +2302,7 @@ body.member-mode .tabs-wrap, body.member-mode .tb { pointer-events:auto; }
   <div class="tracker-stat"><div class="lbl">Spent</div><div class="val" id="shopping-total-a">—</div></div>
   <div class="tracker-stat remaining"><div class="lbl">Remaining</div><div class="val" id="shopping-remaining">—</div></div>
 </div>
-<table class="tracker-table btable" data-type="shop"><thead><tr><th style="width:18%">Day</th><th>Item / Souvenir</th><th class="r" style="width:18%">Spent</th><th class="c" style="width:42px"></th></tr></thead><tbody id="shopping-tracker-body">
+<table class="tracker-table btable"><thead><tr><th style="width:18%">Day</th><th>Item / Souvenir</th><th class="r" style="width:18%">Spent</th><th class="c" style="width:42px"></th></tr></thead><tbody id="shopping-tracker-body">
 <tr data-tracker="shopping" data-row="1">
 <td><select class="tracker-select" id="shopping-day-1" oninput="recalcShopping()"><option value="">Day</option><option>Oct 4</option><option>Oct 5</option><option>Oct 6</option><option>Oct 7</option><option>Oct 8</option><option>Oct 9</option><option>Oct 10</option><option>Oct 11</option></select></td>
 <td><input class="tracker-input" id="shopping-desc-1" oninput="recalcShopping()" placeholder="Souvenir/item" type="text"/></td>
@@ -3013,6 +2934,12 @@ function applyAccessMode() {
   document.querySelectorAll("#panel-budget button").forEach(el => {
     el.disabled = !canEditBudget;
   });
+
+  // If guest lands on the budget panel, redirect to Overview
+  if (user.role === "guest" && document.getElementById("panel-budget")?.classList.contains("active")) {
+    const ovBtn = document.querySelector('.tb[onclick*="\'ov\'"]');
+    showDay("ov", ovBtn || document.querySelector(".tb"));
+  }
 }
 function showLogin() {
   const overlay = document.getElementById("login-overlay");
@@ -3045,7 +2972,7 @@ function signIn(username, password) {
 }
 
 function initSimpleLogin() {
-  // Always start as guest on every page load — users sign in if they want member/admin access.
+  // Always start as Guest on every page load.
   localStorage.removeItem(AUTH_KEY);
   currentUser = { username: "guest", display: "Guest", role: "guest" };
   applyAccessMode();
